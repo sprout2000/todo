@@ -2,11 +2,11 @@
   "name": "todo",
   "version": "3.0.6",
   "description": "A simple todo-app for PWA",
-  "homepage": "https://iwashifry.github.io/todo",
+  "homepage": "https://maydaymin.github.io/todo",
   "private": true,
   "license": "MIT",
   "author": {
-    "name": "iwashifry",
+    "name": "maydaymin",
     "email": "k_konno1983@yahoo.co.jp"
   },
   "scripts": {
