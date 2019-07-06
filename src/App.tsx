@@ -1,5 +1,6 @@
 import React from 'react';
 import localforage from 'localforage';
+import i18n from 'i18next';
 
 import ons from 'onsenui';
 
@@ -23,6 +24,9 @@ import './App.css';
 import Drawer from './Drawer';
 import TodoItem from './TodoItem';
 
+import en from './locales/en.json';
+import ja from './locales/ja.json';
+
 interface Todo {
   id: number;
   title: string;
@@ -44,8 +48,25 @@ class App extends React.Component {
   };
 
   public componentDidMount(): void {
+    const locale =
+      (window.navigator.languages && window.navigator.languages[0]) ||
+      window.navigator.language;
+
+    i18n.init({
+      lng: locale,
+      fallbackLng: 'en',
+      resources: {
+        en: {
+          translation: en,
+        },
+        ja: {
+          translation: ja,
+        },
+      },
+    });
+
     localforage
-      .getItem('todo-20180110')
+      .getItem('todo-20190101')
       .then((value: unknown): void | PromiseLike<void> => {
         if (!value) {
           this.setState({ todos: [] });
@@ -61,7 +82,7 @@ class App extends React.Component {
   public componentDidUpdate(prevProps: State, prevState: State): void {
     if (this.state.todos !== prevState.todos) {
       localforage
-        .setItem('todo-20180110', this.state.todos)
+        .setItem('todo-20190101', this.state.todos)
         .catch((err): void => {
           console.error(err);
         });
@@ -152,15 +173,15 @@ class App extends React.Component {
   };
 
   public renderToolbar = (): JSX.Element => {
-    let title = 'マイタスク';
+    let title = i18n.t('tasks');
     if (this.state.filter === 'done') {
-      title = '完了したタスク';
+      title = i18n.t('done');
     } else if (this.state.filter === 'undone') {
-      title = 'マイタスク';
+      title = i18n.t('tasks');
     } else if (this.state.filter === 'removed') {
-      title = 'ごみ箱';
+      title = i18n.t('trash');
     } else {
-      title = 'すべてのタスク';
+      title = i18n.t('all');
     }
 
     return (
@@ -186,8 +207,8 @@ class App extends React.Component {
           onClick={(): void => {
             ons.notification.confirm({
               title: '(´･ω･`)',
-              message: 'ごみ箱を空にしますか？',
-              buttonLabels: ['いいえ', 'はい'],
+              message: i18n.t('empty'),
+              buttonLabels: [i18n.t('no'), i18n.t('yes')],
               cancelable: true,
               callback: (index: number): void => {
                 if (index === 1) {
@@ -208,9 +229,9 @@ class App extends React.Component {
           position="bottom right"
           onClick={(): void => {
             ons.notification.prompt({
-              title: '新しいタスク',
-              message: 'タスクを入力...',
-              buttonLabels: ['追加'],
+              title: i18n.t('new'),
+              message: i18n.t('input'),
+              buttonLabels: [i18n.t('add')],
               cancelable: true,
               callback: (title: string): void => {
                 this.onSubmit(title);
