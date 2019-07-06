@@ -26,7 +26,7 @@
   outline: none;
   background-color: transparent;
   cursor: pointer;
-  color: #AAA;
+  color: #aaa;
 }
 
 .checkbox-icon {
@@ -35,10 +35,11 @@
 
 .todo-item-container {
   padding-bottom: 10px;
-  border-bottom: thin solid #AAA;
+  border-bottom: thin solid #aaa;
 }
 
-.todo-item, .todo-item:active {
+.todo-item,
+.todo-item:active {
   width: 100%;
   height: 30px;
   border: none;
@@ -55,12 +56,14 @@
 }
 
 .todo-item:disabled {
-  background-color: #FFF;
-  color: #AAA;
+  background-color: #fff;
+  color: #aaa;
   text-decoration-line: line-through;
 }
 
-.remove-button, .remove-button:active, .remove-button:focus {
+.remove-button,
+.remove-button:active,
+.remove-button:focus {
   background: transparent;
   border: none;
   outline: none;
@@ -69,7 +72,7 @@
 
 .drawer-header {
   height: 120px;
-  background-image: url('./cover.png');
+  background-image: url("./cover.png");
   /* background-image: url('./cover.png'); */
   /* background-color: #2980b9; */
   background-size: cover;
@@ -91,7 +94,7 @@
 }
 
 .drawer-footer {
-  background-color: #FFF;
+  background-color: #fff;
   flex-grow: 1;
 }
 
