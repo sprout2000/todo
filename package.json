@@ -9,6 +9,13 @@
     "name": "tofumen",
     "email": "k_konno1983@yahoo.co.jp"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tofumen/todo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tofumen/todo/issues"
+  },
   "scripts": {
     "clean": "rm -rf build/*",
     "serve": "cross-env NODE_ENV=\"development\" webpack-dev-server",
