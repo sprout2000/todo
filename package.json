@@ -1,6 +1,6 @@
 {
   "name": "todo",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "A simple todo-app for PWA",
   "homepage": "https://tofumen.github.io/todo",
   "private": true,

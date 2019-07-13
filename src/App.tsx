@@ -79,7 +79,7 @@ class App extends React.Component {
       });
   }
 
-  public componentDidUpdate(prevProps: State, prevState: State): void {
+  public componentDidUpdate(_prevProps: State, prevState: State): void {
     if (this.state.todos !== prevState.todos) {
       localforage
         .setItem('todo-20190101', this.state.todos)
@@ -89,7 +89,7 @@ class App extends React.Component {
     }
   }
 
-  public onSubmit = (todo: string): void => {
+  private onSubmit = (todo: string): void => {
     if (!todo) {
       return;
     }
@@ -102,7 +102,7 @@ class App extends React.Component {
     });
   };
 
-  public onEdit = (id: number, val: string): void => {
+  private onEdit = (id: number, val: string): void => {
     const newTodos: Todo[] = this.state.todos.map(
       (todo: Todo): Todo => {
         if (todo.id === id) {
@@ -114,7 +114,7 @@ class App extends React.Component {
     this.setState({ todos: newTodos });
   };
 
-  public onCheck = (id: number, val: boolean): void => {
+  private onCheck = (id: number, val: boolean): void => {
     let newTodos: Todo[] = this.state.todos.map(
       (todo: Todo): Todo => {
         if (todo.id === id) {
@@ -127,7 +127,7 @@ class App extends React.Component {
     this.setState({ todos: newTodos });
   };
 
-  public onRemove = (id: number, val: boolean): void => {
+  private onRemove = (id: number, val: boolean): void => {
     let newTodos: Todo[] = this.state.todos.map(
       (todo: Todo): Todo => {
         if (todo.id === id) {
@@ -140,7 +140,7 @@ class App extends React.Component {
     this.setState({ todos: newTodos });
   };
 
-  public onDelete = (): void => {
+  private onDelete = (): void => {
     const newTodos: Todo[] = this.state.todos.filter(
       (todo: Todo): boolean => todo.removed !== true
     );
@@ -149,30 +149,30 @@ class App extends React.Component {
     });
   };
 
-  public onFilter(filter: string): void {
+  private onFilter(filter: string): void {
     this.setState({
       filter,
       drawerOpen: false,
     });
   }
 
-  public onReload = (): void => {
+  private onReload = (): void => {
     window.location.reload();
   };
 
-  public showDrawer = (): void => {
+  private showDrawer = (): void => {
     this.setState({ drawerOpen: true });
   };
 
-  public hideDrawer = (): void => {
+  private hideDrawer = (): void => {
     this.setState({ drawerOpen: false });
   };
 
-  public toggleDrawer = (): void => {
+  private toggleDrawer = (): void => {
     this.setState({ drawerOpen: !this.state.drawerOpen });
   };
 
-  public renderToolbar = (): JSX.Element => {
+  private renderToolbar = (): JSX.Element => {
     let title = i18n.t('tasks');
     if (this.state.filter === 'done') {
       title = i18n.t('done');
@@ -196,7 +196,7 @@ class App extends React.Component {
     );
   };
 
-  public renderFixed = (): JSX.Element => {
+  private renderFixed = (): JSX.Element => {
     let isRemoved = this.state.todos.filter((todo): boolean => todo.removed);
     if (this.state.filter === 'removed') {
       return (
