@@ -2,19 +2,19 @@
   "name": "todo",
   "version": "3.0.8",
   "description": "A simple todo-app for PWA",
-  "homepage": "https://tofugeek.github.io/todo",
+  "homepage": "https://sprout2000.github.io/todo",
   "private": true,
   "license": "MIT",
   "author": {
-    "name": "tofugeek",
+    "name": "sprout2000",
     "email": "k_konno1983@yahoo.co.jp"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tofugeek/todo.git"
+    "url": "git@github.com:sprout2000/todo.git"
   },
   "bugs": {
-    "url": "https://github.com/tofugeek/todo/issues"
+    "url": "https://github.com/sprout2000/todo/issues"
   },
   "scripts": {
     "clean": "rm -rf build/*",
