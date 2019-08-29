@@ -1,19 +1,13 @@
-import path from 'path';
-import webpack from 'webpack';
-import devServer from 'webpack-dev-server';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const serverConfig: devServer.Configuration = {
-  contentBase: path.resolve(__dirname, 'build'),
-  port: 3030,
-};
-
-const config: webpack.Configuration = {
+/** @type import('webpack').Configuration */
+const config = {
   mode: isDev ? 'development' : 'production',
   entry: './src/index.tsx',
   output: {
@@ -75,7 +69,10 @@ const config: webpack.Configuration = {
     }),
   ],
   devtool: isDev ? 'source-map' : false,
-  devServer: serverConfig,
+  devServer: {
+    contentBase: path.resolve(__dirname, 'build'),
+    port: 3000,
+  },
 };
 
-export default config;
+module.exports = config;
