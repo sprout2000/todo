@@ -1,14 +1,17 @@
 import React from 'react';
 
-import { Card } from 'react-onsenui';
+import Card from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCheckCircle,
-  faCheck,
-  faRedo,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import pink from '@material-ui/core/colors/pink';
+import grey from '@material-ui/core/colors/grey';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import CheckIcon from '@material-ui/icons/CheckCircleOutline';
+import UndoIcon from '@material-ui/icons/Undo';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface Todo {
   id: number;
@@ -22,64 +25,114 @@ interface Props {
   onEdit: Function;
   onCheck: Function;
   onRemove: Function;
+  filter: string;
 }
 
 interface HTMLElementEvent<T extends HTMLElement> extends React.ChangeEvent {
   target: T;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    titlebar: {
+      flexGrow: 1,
+    },
+    card: {
+      marginTop: theme.spacing(1),
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+      padding: theme.spacing(1),
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    button: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      outline: 'none',
+    },
+    form: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      fontSize: '16px',
+      width: '100%',
+    },
+    trashContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    trash: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      outline: 'none',
+    },
+  })
+);
+
 const TodoItem = (props: Props): JSX.Element => {
-  const handleOnEdit = (e: HTMLElementEvent<HTMLInputElement>): void => {
-    let val: string = e.target.value;
+  const classes = useStyles();
+
+  const handleOnEdit = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const val: string = e.target.value;
     props.onEdit(props.todo.id, val);
   };
 
   const handleOnCheck = (): void => {
-    let val = !props.todo.checked;
+    const val = !props.todo.checked;
     props.onCheck(props.todo.id, val);
   };
 
   const handleOnRemove = (): void => {
-    let val = !props.todo.removed;
+    const val = !props.todo.removed;
     props.onRemove(props.todo.id, val);
   };
 
   return (
-    <Card>
-      <div className="todo-item-container">
-        <input
-          className="todo-item"
+    <Card className={classes.card}>
+      <button
+        className={classes.button}
+        onClick={handleOnCheck}
+        disabled={props.filter === 'removed'}>
+        {props.todo.checked ? (
+          <CheckIcon
+            style={{
+              color: props.filter !== 'removed' ? pink.A200 : grey[500],
+            }}
+          />
+        ) : (
+          <RadioButtonUncheckedIcon
+            style={{
+              color: props.filter !== 'removed' ? lightBlue[500] : grey[500],
+            }}
+          />
+        )}
+      </button>
+      <div className={classes.form}>
+        <TextField
+          fullWidth
           value={props.todo.title}
-          onChange={(e: HTMLElementEvent<HTMLInputElement>): void =>
-            handleOnEdit(e)
-          }
-          disabled={props.todo.checked}
+          onChange={(e): void => handleOnEdit(e)}
+          disabled={props.todo.checked || props.todo.removed}
         />
       </div>
-      <div className="card-buttons-container">
-        <label>
-          <span className="checkbox-container" onClick={handleOnCheck}>
-            <FontAwesomeIcon
-              icon={props.todo.checked ? faCheckCircle : faCheck}
-              style={{
-                color: props.todo.checked ? '#FF4081' : '#007aff',
-              }}
-            />
-            <span
-              style={{
-                color: props.todo.checked ? '#FF4081' : '#AAA',
-                fontSize: '0.8em',
-                paddingTop: '2px',
-              }}>
-              Done
-            </span>
-          </span>
-        </label>
-        <button onClick={handleOnRemove} className="remove-button">
-          <FontAwesomeIcon
-            icon={props.todo.removed ? faRedo : faTrash}
-            style={{ color: '#AAA' }}
-          />
+      <div>
+        <button onClick={handleOnRemove} className={classes.trash}>
+          {props.todo.removed ? (
+            <UndoIcon style={{ color: lightBlue[500] }} />
+          ) : (
+            <DeleteIcon style={{ color: grey[500] }} />
+          )}
         </button>
       </div>
     </Card>

@@ -1,31 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import localforage from 'localforage';
-import i18n from 'i18next';
 
-import ons from 'onsenui';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import {
-  Toolbar,
-  ToolbarButton,
-  Page,
-  Fab,
-  Splitter,
-  SplitterSide,
-  SplitterContent,
-} from 'react-onsenui';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-
-import 'onsenui/css/onsenui-core.min.css';
-import './onsen-css-components.min.css';
-import './App.css';
-
-import Drawer from './Drawer';
+import Titlebar from './Titlebar';
+import FormDialog from './FormDialog';
+import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
-
-import en from './locales/en.json';
-import ja from './locales/ja.json';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface Todo {
   id: number;
@@ -34,269 +19,252 @@ interface Todo {
   removed: boolean;
 }
 
-interface State {
-  todos: Todo[];
-  filter: string;
-  drawerOpen: boolean;
-}
-
-class App extends React.Component {
-  public state: State = {
-    todos: [],
-    filter: 'undone',
-    drawerOpen: false,
-  };
-
-  public componentDidMount(): void {
-    const locale =
-      (window.navigator.languages && window.navigator.languages[0]) ||
-      window.navigator.language;
-
-    i18n.init({
-      lng: locale,
-      fallbackLng: 'en',
-      resources: {
-        en: {
-          translation: en,
-        },
-        ja: {
-          translation: ja,
-        },
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    '@global': {
+      html: {
+        margin: 0,
+        padding: 0,
       },
-    });
+      body: {
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#efeff4',
+      },
+      '#root': {
+        margin: 0,
+        padding: 0,
+      },
+    },
+    toolbar: theme.mixins.toolbar,
+    container: {
+      margin: '0 auto',
+      maxWidth: '640px',
+    },
+    fab: {
+      position: 'fixed',
+      right: 15,
+      bottom: 15,
+    },
+  })
+);
 
+const Todo = (): JSX.Element => {
+  const initTodos: Todo[] = [];
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [todos, setTodos] = useState(initTodos);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
     localforage
-      .getItem('todo-20190101')
-      .then((value: unknown): void | PromiseLike<void> => {
+      .getItem('todo-20200101')
+      .then((value) => {
         if (!value) {
-          this.setState({ todos: [] });
+          setTodos([]);
         } else {
-          this.setState({ todos: value });
+          setTodos(value as Todo[]);
         }
       })
-      .catch((err): void => {
-        console.error(err);
-      });
-  }
+      .catch((err) => console.error(err));
+  }, []);
 
-  public componentDidUpdate(_prevProps: State, prevState: State): void {
-    if (this.state.todos !== prevState.todos) {
-      localforage
-        .setItem('todo-20190101', this.state.todos)
-        .catch((err): void => {
-          console.error(err);
-        });
-    }
-  }
-
-  private onSubmit = (todo: string): void => {
-    if (!todo) {
-      return;
-    }
-    const newId: number = new Date().getTime();
-    this.setState({
-      todos: [
-        { id: newId, title: todo, checked: false, removed: false },
-        ...this.state.todos,
-      ],
+  useEffect(() => {
+    localforage.setItem('todo-20200101', todos).catch((err): void => {
+      console.error(err);
     });
+  }, [todos]);
+
+  const toggleDrawer = (open: boolean): void => {
+    setDrawerOpen(open);
   };
 
-  private onEdit = (id: number, val: string): void => {
-    const newTodos: Todo[] = this.state.todos.map(
-      (todo: Todo): Todo => {
-        if (todo.id === id) {
-          todo.title = val;
-        }
-        return todo;
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
+    setNewTitle('');
+  };
+
+  const handleAlertOpen = (): void => {
+    setAlertOpen(true);
+  };
+
+  const handleAlertClose = (): void => {
+    setAlertOpen(false);
+  };
+
+  const handleOnAdd = (todo: string): void => {
+    const newId = new Date().getTime();
+    setTodos([
+      { id: newId, title: todo, checked: false, removed: false },
+      ...todos,
+    ]);
+  };
+
+  const handleOnEdit = (id: number, title: string): void => {
+    const newTodo = todos.map((todo: Todo) => {
+      if (todo.id === id) {
+        todo.title = title;
       }
-    );
-    this.setState({ todos: newTodos });
+      return todo;
+    });
+
+    setTodos(newTodo);
   };
 
-  private onCheck = (id: number, val: boolean): void => {
-    let newTodos: Todo[] = this.state.todos.map(
-      (todo: Todo): Todo => {
-        if (todo.id === id) {
-          todo.checked = val;
-        }
-        return todo;
+  const handleOnCheck = (id: number, checked: boolean): void => {
+    const newTodo = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.checked = checked;
       }
-    );
+      return todo;
+    });
 
-    this.setState({ todos: newTodos });
+    setTodos(newTodo);
   };
 
-  private onRemove = (id: number, val: boolean): void => {
-    let newTodos: Todo[] = this.state.todos.map(
-      (todo: Todo): Todo => {
-        if (todo.id === id) {
-          todo.removed = val;
-        }
-        return todo;
+  const handleOnRemove = (id: number, val: boolean): void => {
+    const newTodo = todos.filter((todo: Todo) => {
+      if (todo.id === id) {
+        todo.removed = val;
       }
-    );
+      return todo;
+    });
 
-    this.setState({ todos: newTodos });
+    setTodos(newTodo);
   };
 
-  private onDelete = (): void => {
-    const newTodos: Todo[] = this.state.todos.filter(
+  const handleOnDelete = (): void => {
+    const newTodos: Todo[] = todos.filter(
       (todo: Todo): boolean => todo.removed !== true
     );
-    this.setState({
-      todos: newTodos,
-    });
+
+    setTodos(newTodos);
   };
 
-  private onFilter(filter: string): void {
-    this.setState({
-      filter,
-      drawerOpen: false,
-    });
-  }
-
-  private onReload = (): void => {
-    window.location.reload();
+  const handleOnSort = (filter: string): void => {
+    setFilter(filter);
   };
 
-  private showDrawer = (): void => {
-    this.setState({ drawerOpen: true });
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    setNewTitle(e.target.value);
   };
 
-  private hideDrawer = (): void => {
-    this.setState({ drawerOpen: false });
-  };
-
-  private toggleDrawer = (): void => {
-    this.setState({ drawerOpen: !this.state.drawerOpen });
-  };
-
-  private renderToolbar = (): JSX.Element => {
-    let title = i18n.t('tasks');
-    if (this.state.filter === 'done') {
-      title = i18n.t('done');
-    } else if (this.state.filter === 'undone') {
-      title = i18n.t('tasks');
-    } else if (this.state.filter === 'removed') {
-      title = i18n.t('trash');
-    } else {
-      title = i18n.t('all');
+  const handleOnSubmit = (): void => {
+    if (!newTitle) {
+      handleClose();
+      return;
     }
 
-    return (
-      <Toolbar>
-        <div className="left">
-          <ToolbarButton onClick={this.toggleDrawer}>
-            <FontAwesomeIcon icon={faBars} />
-          </ToolbarButton>
-        </div>
-        <div className="center">{title}</div>
-      </Toolbar>
-    );
+    handleOnAdd(newTitle);
+    handleClose();
   };
 
-  private renderFixed = (): JSX.Element => {
-    let isRemoved = this.state.todos.filter((todo): boolean => todo.removed);
-    if (this.state.filter === 'removed') {
-      return (
-        <Fab
-          disabled={isRemoved.length !== 0 ? false : true}
-          ripple
-          position="bottom right"
-          onClick={(): void => {
-            ons.notification.confirm({
-              title: '(´･ω･`)',
-              message: i18n.t('empty'),
-              buttonLabels: [i18n.t('no'), i18n.t('yes')],
-              cancelable: true,
-              callback: (index: number): void => {
-                if (index === 1) {
-                  this.onDelete();
-                }
-              },
-            });
-            this.hideDrawer();
-          }}>
-          <FontAwesomeIcon icon={faTrash} />
-        </Fab>
-      );
+  const filterTodos = todos.filter((todo) => {
+    if (filter === 'all') {
+      return !todo.removed;
+    } else if (filter === 'complete') {
+      return todo.checked && !todo.removed;
+    } else if (filter === 'incomplete') {
+      return !todo.checked && !todo.removed;
+    } else if (filter === 'removed') {
+      return todo.removed;
     } else {
-      return (
-        <Fab
-          disabled={this.state.filter !== 'undone' ? true : false}
-          ripple
-          position="bottom right"
-          onClick={(): void => {
-            ons.notification.prompt({
-              title: i18n.t('new'),
-              message: i18n.t('input'),
-              buttonLabels: [i18n.t('add')],
-              cancelable: true,
-              callback: (title: string): void => {
-                this.onSubmit(title);
-              },
-            });
-            this.hideDrawer();
-          }}>
-          <FontAwesomeIcon icon={faPen} />
-        </Fab>
-      );
-    }
-  };
-
-  public render(): JSX.Element {
-    const filterTodos = this.state.todos.filter((todo): boolean | null => {
-      const filter = this.state.filter;
-      if (filter === 'all') {
-        return !todo.removed;
-      } else if (filter === 'done') {
-        return todo.checked && !todo.removed;
-      } else if (filter === 'undone') {
-        return !todo.checked && !todo.removed;
-      } else if (filter === 'removed') {
-        return todo.removed;
-      }
       return null;
-    });
+    }
+  });
 
-    const todoItems = filterTodos.map(
-      (todo): JSX.Element => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onEdit={this.onEdit}
-          onCheck={this.onCheck}
-          onRemove={this.onRemove}
-        />
-      )
-    );
+  const setTitle = (): string => {
+    if (filter === 'all') {
+      return 'All Tasks';
+    } else if (filter === 'complete') {
+      return 'Completed Tasks';
+    } else if (filter === 'incomplete') {
+      return 'Incomplete Tasks';
+    } else {
+      return 'Trash';
+    }
+  };
 
+  const todoItems = filterTodos.map((todo) => {
     return (
-      <Page renderToolbar={this.renderToolbar} renderFixed={this.renderFixed}>
-        <Splitter>
-          <SplitterSide
-            side="left"
-            width={250}
-            collapse={true}
-            swipeable={true}
-            isOpen={this.state.drawerOpen}
-            onClose={this.hideDrawer}
-            onOpen={this.showDrawer}>
-            <Drawer
-              onFilter={(filter: string): void => this.onFilter(filter)}
-              onReload={this.onReload}
-            />
-          </SplitterSide>
-          <SplitterContent>
-            <Page>
-              <div className="card-container">{todoItems}</div>
-            </Page>
-          </SplitterContent>
-        </Splitter>
-      </Page>
+      <TodoItem
+        key={todo.id}
+        todo={todo}
+        filter={filter}
+        onEdit={handleOnEdit}
+        onCheck={handleOnCheck}
+        onRemove={handleOnRemove}
+      />
     );
-  }
-}
+  });
 
-export default App;
+  const isRemoved = todos.filter((todo): boolean => todo.removed);
+  const classes = useStyles();
+
+  return (
+    <div>
+      <Titlebar
+        title={setTitle()}
+        toggleDrawer={toggleDrawer}
+        drawerOpen={drawerOpen}
+        handleOnSort={handleOnSort}
+      />
+      <div className={classes.toolbar} />
+      <div className={classes.container}>
+        <div>{todoItems}</div>
+        {filter === 'removed' ? (
+          <Fab
+            className={classes.fab}
+            color="secondary"
+            onClick={handleAlertOpen}
+            disabled={isRemoved.length === 0}>
+            <DeleteIcon />
+          </Fab>
+        ) : (
+          <Fab
+            className={classes.fab}
+            color="secondary"
+            onClick={handleClickOpen}
+            disabled={filter !== 'all'}>
+            <AddIcon />
+          </Fab>
+        )}
+        <FormDialog
+          open={open}
+          newTitle={newTitle}
+          handleClose={handleClose}
+          handleOnChange={handleOnChange}
+          handleOnSubmit={handleOnSubmit}
+        />
+        <AlertDialog
+          open={alertOpen}
+          handleCloseAlert={handleAlertClose}
+          handleOnDelete={handleOnDelete}
+        />
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.render(<Todo />, document.getElementById('root'));
+
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./service-worker.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}

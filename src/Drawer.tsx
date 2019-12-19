@@ -1,97 +1,104 @@
 import React from 'react';
-import i18n from 'i18next';
 
-import { Page, List, ListItem } from 'react-onsenui';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import indigo from '@material-ui/core/colors/indigo';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import pink from '@material-ui/core/colors/pink';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPen,
-  faCheckCircle,
-  faTrash,
-  faRedo,
-} from '@fortawesome/free-solid-svg-icons';
+import SubjectIcon from '@material-ui/icons/Subject';
+import DeleteIcon from '@material-ui/icons/Delete';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
 
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+
+import Icon from './icon-48.png';
 import pjson from '../package.json';
-import en from './locales/en.json';
-import ja from './locales/ja.json';
 
 interface Props {
-  onFilter: Function;
-  onReload: Function;
+  toggleDrawer: Function;
+  handleOnSort: Function;
+  drawerOpen: boolean;
 }
 
-const Drawer = (props: Props): JSX.Element => {
-  const version = pjson.version;
-  const locale =
-    (window.navigator.languages && window.navigator.languages[0]) ||
-    window.navigator.language;
-
-  i18n.init({
-    lng: locale,
-    fallbackLng: 'en',
-    resources: {
-      en: {
-        translation: en,
-      },
-      ja: {
-        translation: ja,
-      },
+const useStyles = makeStyles(() =>
+  createStyles({
+    drawerHeader: {
+      height: 120,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '1em',
+      backgroundColor: indigo[300],
+      color: '#ffffff',
+      fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
-  });
+    list: {
+      width: 250,
+      color: '#666',
+    },
+    todo: {
+      color: lightBlue[500],
+    },
+    complete: {
+      color: pink.A200,
+    },
+  })
+);
 
-  const title = i18n.t('title');
-  const tasks = i18n.t('tasks');
-  const done = i18n.t('done');
-  const all = i18n.t('all');
-  const trash = i18n.t('trash');
-  const reload = i18n.t('reload');
+const Drawer = (props: Props): JSX.Element => {
+  const classes = useStyles();
 
   return (
-    <Page>
-      <List className="drawer">
-        <div className="drawer-header">
-          <p>{title}</p>
-          <p>{version}</p>
+    <SwipeableDrawer
+      open={props.drawerOpen}
+      onClose={(): void => props.toggleDrawer(false)}
+      onOpen={(): void => props.toggleDrawer(true)}>
+      <div
+        className={classes.list}
+        role="presentation"
+        onClick={(): void => props.toggleDrawer(false)}>
+        <div className={classes.drawerHeader}>
+          <img src={Icon} width={48} />
+          <p>TODO v{pjson.version}</p>
         </div>
-        <ListItem tappable onClick={(): void => props.onFilter('undone')}>
-          <div className="left">
-            <FontAwesomeIcon
-              icon={faCheckCircle}
-              style={{ color: '#007aff' }}
-            />
-          </div>
-          <div className="center drawer-text">{tasks}</div>
-        </ListItem>
-        <ListItem tappable onClick={(): void => props.onFilter('done')}>
-          <div className="left">
-            <FontAwesomeIcon
-              icon={faCheckCircle}
-              style={{ color: '#FF4081' }}
-            />
-          </div>
-          <div className="center drawer-text">{done}</div>
-        </ListItem>
-        <ListItem tappable onClick={(): void => props.onFilter('all')}>
-          <div className="left">
-            <FontAwesomeIcon icon={faPen} style={{ color: '#000000' }} />
-          </div>
-          <div className="center drawer-text">{all}</div>
-        </ListItem>
-        <ListItem tappable onClick={(): void => props.onFilter('removed')}>
-          <div className="left">
-            <FontAwesomeIcon icon={faTrash} style={{ color: '#777' }} />
-          </div>
-          <div className="center drawer-text">{trash}</div>
-        </ListItem>
-        <ListItem tappable onClick={(): void => props.onReload()}>
-          <div className="left">
-            <FontAwesomeIcon icon={faRedo} style={{ color: '#777' }} />
-          </div>
-          <div className="center drawer-text">{reload}</div>
-        </ListItem>
-        <div className="drawer-footer" />
-      </List>
-    </Page>
+        <List>
+          <ListItem button onClick={(): void => props.handleOnSort('all')}>
+            <ListItemIcon>
+              <SubjectIcon />
+            </ListItemIcon>
+            <ListItemText primary="All" />
+          </ListItem>
+          <ListItem
+            button
+            onClick={(): void => props.handleOnSort('incomplete')}>
+            <ListItemIcon>
+              <RadioButtonUncheckedIcon className={classes.todo} />
+            </ListItemIcon>
+            <ListItemText primary="Incomplete" />
+          </ListItem>
+          <ListItem button onClick={(): void => props.handleOnSort('complete')}>
+            <ListItemIcon>
+              <CheckCircleIcon className={classes.complete} />
+            </ListItemIcon>
+            <ListItemText primary="Completed" />
+          </ListItem>
+          <ListItem button onClick={(): void => props.handleOnSort('removed')}>
+            <ListItemIcon>
+              <DeleteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Trash" />
+          </ListItem>
+          <Divider />
+        </List>
+      </div>
+    </SwipeableDrawer>
   );
 };
 
