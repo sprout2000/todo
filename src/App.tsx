@@ -5,13 +5,13 @@ import i18next from 'i18next';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Titlebar from './Titlebar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import en from './locales/en.json';
 import ja from './locales/ja.json';
