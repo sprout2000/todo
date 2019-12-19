@@ -1,0 +1,12 @@
+{
+  "all": "All Tasks",
+  "complete": "Completed Tasks",
+  "incomplete": "Incomplete Tasks",
+  "trash": "Trash",
+  "whattodo": "What to do?",
+  "add": "ADD",
+  "alert": "Alert",
+  "sure": "Are you sure you want to permanently erase the items in the Trash?",
+  "cannot": "You can't undo this action.",
+  "cancel": "Cancel"
+}

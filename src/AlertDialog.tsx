@@ -1,4 +1,6 @@
 import React from 'react';
+import i18next from 'i18next';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -16,20 +18,16 @@ const AlertDialog = (props: Props): JSX.Element => {
   return (
     <div>
       <Dialog open={props.open} onClose={(): void => props.handleCloseAlert()}>
-        <DialogTitle>Alert</DialogTitle>
+        <DialogTitle>{i18next.t('alert')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to permanently erase the items in the Trash?
-          </DialogContentText>
-          <DialogContentText>
-            You can&apos;t undo this action.
-          </DialogContentText>
+          <DialogContentText>{i18next.t('sure')}</DialogContentText>
+          <DialogContentText>{i18next.t('cannot')}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={(): void => props.handleCloseAlert()}
             color="primary">
-            Cancel
+            {i18next.t('cancel')}
           </Button>
           <Button
             onClick={(): void => {

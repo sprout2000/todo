@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import localforage from 'localforage';
+import i18next from 'i18next';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,6 +12,9 @@ import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import en from './locales/en.json';
+import ja from './locales/ja.json';
 
 interface Todo {
   id: number;
@@ -59,6 +63,23 @@ const Todo = (): JSX.Element => {
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
+    const locale =
+      (window.navigator.languages && window.navigator.languages[0]) ||
+      window.navigator.language;
+
+    i18next.init({
+      lng: locale,
+      fallbackLng: 'en',
+      resources: {
+        en: {
+          translation: en,
+        },
+        ja: {
+          translation: ja,
+        },
+      },
+    });
+
     localforage
       .getItem('todo-20200101')
       .then((value) => {
@@ -183,13 +204,13 @@ const Todo = (): JSX.Element => {
 
   const setTitle = (): string => {
     if (filter === 'all') {
-      return 'All Tasks';
+      return i18next.t('all');
     } else if (filter === 'complete') {
-      return 'Completed Tasks';
+      return i18next.t('complete');
     } else if (filter === 'incomplete') {
-      return 'Incomplete Tasks';
+      return i18next.t('incomplete');
     } else {
-      return 'Trash';
+      return i18next.t('trash');
     }
   };
 

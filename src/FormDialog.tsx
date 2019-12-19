@@ -1,4 +1,5 @@
 import React from 'react';
+import i18next from 'i18next';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -39,14 +40,14 @@ const FormDialog = (props: Props): JSX.Element => {
         }}>
         <TextField
           className={classes.input}
-          label="What to do?"
+          label={i18next.t('whattodo')}
           onChange={(e): void => props.handleOnChange(e)}
           value={props.newTitle}
           autoFocus
         />
         <DialogActions>
           <Button color="primary" onClick={(): void => props.handleOnSubmit()}>
-            Add
+            {i18next.t('add')}
           </Button>
         </DialogActions>
       </form>

@@ -1,4 +1,5 @@
 import React from 'react';
+import i18next from 'i18next';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -73,7 +74,7 @@ const Drawer = (props: Props): JSX.Element => {
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
-            <ListItemText primary="All" />
+            <ListItemText primary={i18next.t('all')} />
           </ListItem>
           <ListItem
             button
@@ -81,19 +82,19 @@ const Drawer = (props: Props): JSX.Element => {
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
-            <ListItemText primary="Incomplete" />
+            <ListItemText primary={i18next.t('incomplete')} />
           </ListItem>
           <ListItem button onClick={(): void => props.handleOnSort('complete')}>
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
-            <ListItemText primary="Completed" />
+            <ListItemText primary={i18next.t('complete')} />
           </ListItem>
           <ListItem button onClick={(): void => props.handleOnSort('removed')}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary="Trash" />
+            <ListItemText primary={i18next.t('trash')} />
           </ListItem>
           <Divider />
         </List>
