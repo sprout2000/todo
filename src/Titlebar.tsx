@@ -11,10 +11,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Drawer from './Drawer';
 
 interface Props {
-  toggleDrawer: Function;
-  drawerOpen: boolean;
-  handleOnSort: Function;
   title: string;
+  drawerOpen: boolean;
+  openDrawer: Function;
+  handleOnSort: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +42,7 @@ const Titlebar = (props: Props): JSX.Element => {
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
-            onClick={(): void => props.toggleDrawer(true)}
+            onClick={(): void => props.openDrawer(true)}
             edge="start"
             className={classes.menuButton}
             color="inherit"

@@ -55,9 +55,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Todo = (): JSX.Element => {
   const initTodos: Todo[] = [];
+
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+
   const [newTitle, setNewTitle] = useState('');
   const [todos, setTodos] = useState(initTodos);
   const [filter, setFilter] = useState('all');
@@ -98,66 +100,78 @@ const Todo = (): JSX.Element => {
     });
   }, [todos]);
 
-  const toggleDrawer = (open: boolean): void => {
+  const openDrawer = (open: boolean): void => {
     setDrawerOpen(open);
   };
 
-  const handleClickOpen = (): void => {
-    setOpen(true);
+  const openDialog = (): void => {
+    setDialogOpen(true);
   };
 
-  const handleClose = (): void => {
-    setOpen(false);
+  const closeDialog = (): void => {
+    setDialogOpen(false);
     setNewTitle('');
   };
 
-  const handleAlertOpen = (): void => {
+  const openAlert = (): void => {
     setAlertOpen(true);
   };
 
-  const handleAlertClose = (): void => {
+  const closeAlert = (): void => {
     setAlertOpen(false);
   };
 
-  const handleOnAdd = (todo: string): void => {
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    setNewTitle(e.target.value);
+  };
+
+  const handleOnSubmit = (): void => {
+    if (!newTitle) {
+      closeDialog();
+      return;
+    }
+
     const newId = new Date().getTime();
     setTodos([
-      { id: newId, title: todo, checked: false, removed: false },
+      { id: newId, title: newTitle, checked: false, removed: false },
       ...todos,
     ]);
+    closeDialog();
   };
 
   const handleOnEdit = (id: number, title: string): void => {
-    const newTodo = todos.map((todo: Todo) => {
+    const newTodos = todos.map((todo: Todo) => {
       if (todo.id === id) {
         todo.title = title;
       }
       return todo;
     });
 
-    setTodos(newTodo);
+    setTodos(newTodos);
   };
 
   const handleOnCheck = (id: number, checked: boolean): void => {
-    const newTodo = todos.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.checked = checked;
       }
       return todo;
     });
 
-    setTodos(newTodo);
+    setTodos(newTodos);
   };
 
   const handleOnRemove = (id: number, val: boolean): void => {
-    const newTodo = todos.filter((todo: Todo) => {
+    const newTodos = todos.filter((todo: Todo) => {
       if (todo.id === id) {
         todo.removed = val;
       }
       return todo;
     });
 
-    setTodos(newTodo);
+    setTodos(newTodos);
   };
 
   const handleOnDelete = (): void => {
@@ -172,36 +186,6 @@ const Todo = (): JSX.Element => {
     setFilter(filter);
   };
 
-  const handleOnChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    setNewTitle(e.target.value);
-  };
-
-  const handleOnSubmit = (): void => {
-    if (!newTitle) {
-      handleClose();
-      return;
-    }
-
-    handleOnAdd(newTitle);
-    handleClose();
-  };
-
-  const filterTodos = todos.filter((todo) => {
-    if (filter === 'all') {
-      return !todo.removed;
-    } else if (filter === 'complete') {
-      return todo.checked && !todo.removed;
-    } else if (filter === 'incomplete') {
-      return !todo.checked && !todo.removed;
-    } else if (filter === 'removed') {
-      return todo.removed;
-    } else {
-      return null;
-    }
-  });
-
   const setTitle = (): string => {
     if (filter === 'all') {
       return i18next.t('all');
@@ -214,27 +198,41 @@ const Todo = (): JSX.Element => {
     }
   };
 
-  const todoItems = filterTodos.map((todo) => {
-    return (
-      <TodoItem
-        key={todo.id}
-        todo={todo}
-        filter={filter}
-        onEdit={handleOnEdit}
-        onCheck={handleOnCheck}
-        onRemove={handleOnRemove}
-      />
-    );
+  const filteredTodos = todos.filter((todo): boolean => {
+    if (filter === 'complete') {
+      return todo.checked && !todo.removed;
+    } else if (filter === 'incomplete') {
+      return !todo.checked && !todo.removed;
+    } else if (filter === 'removed') {
+      return todo.removed;
+    } else {
+      return !todo.removed;
+    }
   });
 
-  const isRemoved = todos.filter((todo): boolean => todo.removed);
+  const todoItems = filteredTodos.map(
+    (todo): JSX.Element => {
+      return (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          filter={filter}
+          onEdit={handleOnEdit}
+          onCheck={handleOnCheck}
+          onRemove={handleOnRemove}
+        />
+      );
+    }
+  );
+
+  const removedTodos = todos.filter((todo): boolean => todo.removed);
   const classes = useStyles();
 
   return (
     <div>
       <Titlebar
         title={setTitle()}
-        toggleDrawer={toggleDrawer}
+        openDrawer={openDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
       />
@@ -245,29 +243,29 @@ const Todo = (): JSX.Element => {
           <Fab
             className={classes.fab}
             color="secondary"
-            onClick={handleAlertOpen}
-            disabled={isRemoved.length === 0}>
+            onClick={openAlert}
+            disabled={removedTodos.length === 0}>
             <DeleteIcon />
           </Fab>
         ) : (
           <Fab
             className={classes.fab}
             color="secondary"
-            onClick={handleClickOpen}
+            onClick={openDialog}
             disabled={filter !== 'all'}>
             <AddIcon />
           </Fab>
         )}
         <FormDialog
-          open={open}
+          dialogOpen={dialogOpen}
           newTitle={newTitle}
-          handleClose={handleClose}
+          closeDialog={closeDialog}
           handleOnChange={handleOnChange}
           handleOnSubmit={handleOnSubmit}
         />
         <AlertDialog
-          open={alertOpen}
-          handleCloseAlert={handleAlertClose}
+          alertOpen={alertOpen}
+          closeAlert={closeAlert}
           handleOnDelete={handleOnDelete}
         />
       </div>

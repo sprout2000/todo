@@ -22,9 +22,9 @@ import Icon from './icon-48.png';
 import pjson from '../package.json';
 
 interface Props {
-  toggleDrawer: Function;
-  handleOnSort: Function;
   drawerOpen: boolean;
+  openDrawer: Function;
+  handleOnSort: Function;
 }
 
 const useStyles = makeStyles(() =>
@@ -59,12 +59,12 @@ const Drawer = (props: Props): JSX.Element => {
   return (
     <SwipeableDrawer
       open={props.drawerOpen}
-      onClose={(): void => props.toggleDrawer(false)}
-      onOpen={(): void => props.toggleDrawer(true)}>
+      onClose={(): void => props.openDrawer(false)}
+      onOpen={(): void => props.openDrawer(true)}>
       <div
         className={classes.list}
         role="presentation"
-        onClick={(): void => props.toggleDrawer(false)}>
+        onClick={(): void => props.openDrawer(false)}>
         <div className={classes.drawerHeader}>
           <img src={Icon} width={48} />
           <p>TODO v{pjson.version}</p>
