@@ -4,8 +4,8 @@ import localforage from 'localforage';
 import i18next from 'i18next';
 
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Titlebar from './Titlebar';
@@ -255,7 +255,7 @@ const Todo = (): JSX.Element => {
             color="secondary"
             onClick={openDialog}
             disabled={filter !== 'all'}>
-            <AddIcon />
+            <CreateRoundedIcon />
           </Fab>
         )}
         <FormDialog
