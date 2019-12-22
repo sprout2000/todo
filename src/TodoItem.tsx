@@ -28,10 +28,6 @@ interface Props {
   filter: string;
 }
 
-interface HTMLElementEvent<T extends HTMLElement> extends React.ChangeEvent {
-  target: T;
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     titlebar: {
