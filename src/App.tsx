@@ -241,6 +241,7 @@ const Todo = (): JSX.Element => {
         <div>{todoItems}</div>
         {filter === 'removed' ? (
           <Fab
+            aria-label="delete-button"
             className={classes.fab}
             color="secondary"
             onClick={openAlert}
@@ -249,6 +250,7 @@ const Todo = (): JSX.Element => {
           </Fab>
         ) : (
           <Fab
+            aria-label="add-button"
             className={classes.fab}
             color="secondary"
             onClick={openDialog}
