@@ -21,6 +21,7 @@
   ],
   "plugins": [
     "react",
+    "react-hooks",
     "prettier"
   ],
   "rules": {
@@ -33,7 +34,9 @@
         "endOfLine": "lf",
         "jsxBracketSameLine": true
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {
