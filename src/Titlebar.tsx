@@ -13,7 +13,7 @@ import Drawer from './Drawer';
 interface Props {
   title: string;
   drawerOpen: boolean;
-  openDrawer: Function;
+  toggleDrawer: Function;
   handleOnSort: Function;
 }
 
@@ -42,7 +42,7 @@ const Titlebar = (props: Props): JSX.Element => {
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
-            onClick={(): void => props.openDrawer(true)}
+            onClick={(): void => props.toggleDrawer(true)}
             edge="start"
             className={classes.menuButton}
             color="inherit"

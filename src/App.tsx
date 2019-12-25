@@ -100,8 +100,8 @@ const Todo = (): JSX.Element => {
     });
   }, [todos]);
 
-  const openDrawer = (open: boolean): void => {
-    setDrawerOpen(open);
+  const toggleDrawer = (bool: boolean): void => {
+    setDrawerOpen(bool);
   };
 
   const openDialog = (): void => {
@@ -163,10 +163,10 @@ const Todo = (): JSX.Element => {
     setTodos(newTodos);
   };
 
-  const handleOnRemove = (id: number, val: boolean): void => {
+  const handleOnRemove = (id: number, removed: boolean): void => {
     const newTodos = todos.filter((todo: Todo) => {
       if (todo.id === id) {
-        todo.removed = val;
+        todo.removed = removed;
       }
       return todo;
     });
@@ -232,7 +232,7 @@ const Todo = (): JSX.Element => {
     <div>
       <Titlebar
         title={setTitle()}
-        openDrawer={openDrawer}
+        toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
       />

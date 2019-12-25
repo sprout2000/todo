@@ -23,7 +23,7 @@ import pjson from '../package.json';
 
 interface Props {
   drawerOpen: boolean;
-  openDrawer: Function;
+  toggleDrawer: Function;
   handleOnSort: Function;
 }
 
@@ -59,12 +59,12 @@ const Drawer = (props: Props): JSX.Element => {
   return (
     <SwipeableDrawer
       open={props.drawerOpen}
-      onClose={(): void => props.openDrawer(false)}
-      onOpen={(): void => props.openDrawer(true)}>
+      onClose={(): void => props.toggleDrawer(false)}
+      onOpen={(): void => props.toggleDrawer(true)}>
       <div
         className={classes.list}
         role="presentation"
-        onClick={(): void => props.openDrawer(false)}>
+        onClick={(): void => props.toggleDrawer(false)}>
         <div className={classes.drawerHeader}>
           <img src={Icon} width={48} />
           <p>TODO v{pjson.version}</p>
