@@ -1,23 +1,32 @@
 import React from 'react';
 import i18next from 'i18next';
 
+/** Drawer and List */
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
+
+/** Colors */
 import indigo from '@material-ui/core/colors/indigo';
 import lightBlue from '@material-ui/core/colors/lightBlue';
 import pink from '@material-ui/core/colors/pink';
 
+/** Icons */
+import CreateIcon from '@material-ui/icons/CreateRounded';
 import SubjectIcon from '@material-ui/icons/Subject';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
 
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+/** Styles */
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
 
+/** Resources */
 import pjson from '../package.json';
 
 interface Props {
@@ -26,7 +35,7 @@ interface Props {
   handleOnSort: Function;
 }
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     drawerHeader: {
       height: 150,
@@ -39,9 +48,13 @@ const useStyles = makeStyles(() =>
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
+    avatar: {
+      backgroundColor: pink[500],
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    },
     list: {
       width: 250,
-      color: '#666',
     },
     todo: {
       color: lightBlue[500],
@@ -65,7 +78,9 @@ const SideBar = (props: Props): JSX.Element => {
         role='presentation'
         onClick={(): void => props.toggleDrawer()}>
         <div className={classes.drawerHeader}>
-          <img src='icons/icon-192.png' width={48} />
+          <Avatar className={classes.avatar}>
+            <CreateIcon />
+          </Avatar>
           <p>TODO v{pjson.version}</p>
         </div>
         <List>
@@ -73,7 +88,7 @@ const SideBar = (props: Props): JSX.Element => {
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
-            <ListItemText primary={i18next.t('all')} />
+            <ListItemText secondary={i18next.t('all')} />
           </ListItem>
           <ListItem
             button
@@ -81,19 +96,19 @@ const SideBar = (props: Props): JSX.Element => {
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
-            <ListItemText primary={i18next.t('incomplete')} />
+            <ListItemText secondary={i18next.t('incomplete')} />
           </ListItem>
           <ListItem button onClick={(): void => props.handleOnSort('complete')}>
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
-            <ListItemText primary={i18next.t('complete')} />
+            <ListItemText secondary={i18next.t('complete')} />
           </ListItem>
           <ListItem button onClick={(): void => props.handleOnSort('removed')}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary={i18next.t('trash')} />
+            <ListItemText secondary={i18next.t('trash')} />
           </ListItem>
           <Divider />
         </List>
