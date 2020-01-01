@@ -129,7 +129,12 @@ const TodoItem = (props: Props): JSX.Element => {
               />
             )}
             <Typography
-              style={{ color: props.todo.checked ? pink.A200 : grey[700] }}>
+              style={{
+                color:
+                  props.todo.checked && props.filter !== 'removed'
+                    ? pink.A200
+                    : grey[500],
+              }}>
               Done
             </Typography>
           </button>
