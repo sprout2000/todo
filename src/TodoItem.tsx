@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+      fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
     button: {
       display: 'flex',

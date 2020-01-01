@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -24,6 +24,10 @@ module.exports = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: 'ts-loader',
+      },
+      {
+        test: /\.s?css$/,
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(bmp|gif|png|jpe?g|svg|ttf|eot|woff?2?)$/,
@@ -53,18 +57,13 @@ module.exports = {
       chunks: ['app', 'vendor'],
       filename: 'index.html',
     }),
-    new CopyWebpackPlugin(
-      [
-        {
-          from: 'assets',
-          to: '.',
-          toType: 'dir',
-        },
-      ],
+    new CopyWebpackPlugin([
       {
-        ignore: ['.DS_Store'],
-      }
-    ),
+        from: 'assets',
+        to: '.',
+        toType: 'dir',
+      },
+    ]),
     new WorkboxWebpackPlugin.GenerateSW({
       swDest: 'service-worker.js',
       skipWaiting: true,

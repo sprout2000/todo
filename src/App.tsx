@@ -9,6 +9,7 @@ import CreateIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
 
 /** Styles */
+import 'typeface-roboto';
 import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 

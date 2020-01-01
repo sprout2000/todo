@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '90%',
       margin: theme.spacing(2),
       fontSize: '16px',
+      fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
   })
 );
