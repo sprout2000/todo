@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Titlebar = (props: Props): JSX.Element => {
+const TopBar = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -46,4 +46,4 @@ const Titlebar = (props: Props): JSX.Element => {
   );
 };
 
-export default Titlebar;
+export default TopBar;

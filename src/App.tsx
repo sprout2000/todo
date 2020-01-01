@@ -14,7 +14,7 @@ import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 /** Components */
-import TitleBar from './TitleBar';
+import TopBar from './TopBar';
 import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
@@ -213,7 +213,7 @@ const App = (): JSX.Element => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <TitleBar title={setTitle()} toggleDrawer={toggleDrawer} />
+      <TopBar title={setTitle()} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
