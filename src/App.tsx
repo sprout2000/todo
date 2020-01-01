@@ -8,7 +8,8 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import Titlebar from './Titlebar';
+import TitleBar from './TitleBar';
+import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
@@ -100,9 +101,7 @@ const Todo = (): JSX.Element => {
     });
   }, [todos]);
 
-  const toggleDrawer = (bool: boolean): void => {
-    setDrawerOpen(bool);
-  };
+  const toggleDrawer = (): void => setDrawerOpen(!drawerOpen);
 
   const openDialog = (): void => {
     setDialogOpen(true);
@@ -230,8 +229,8 @@ const Todo = (): JSX.Element => {
 
   return (
     <div>
-      <Titlebar
-        title={setTitle()}
+      <TitleBar title={setTitle()} toggleDrawer={toggleDrawer} />
+      <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
@@ -241,18 +240,18 @@ const Todo = (): JSX.Element => {
         <div>{todoItems}</div>
         {filter === 'removed' ? (
           <Fab
-            aria-label="delete-button"
+            aria-label='delete-button'
             className={classes.fab}
-            color="secondary"
+            color='secondary'
             onClick={openAlert}
             disabled={removedTodos.length === 0}>
             <DeleteIcon />
           </Fab>
         ) : (
           <Fab
-            aria-label="add-button"
+            aria-label='add-button'
             className={classes.fab}
-            color="secondary"
+            color='secondary'
             onClick={openDialog}
             disabled={filter !== 'all'}>
             <CreateRoundedIcon />

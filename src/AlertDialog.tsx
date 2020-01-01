@@ -24,7 +24,7 @@ const AlertDialog = (props: Props): JSX.Element => {
           <DialogContentText>{i18next.t('cannot')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(): void => props.closeAlert()} color="primary">
+          <Button onClick={(): void => props.closeAlert()} color='primary'>
             {i18next.t('cancel')}
           </Button>
           <Button
@@ -32,7 +32,7 @@ const AlertDialog = (props: Props): JSX.Element => {
               props.closeAlert();
               props.handleOnDelete();
             }}
-            color="secondary"
+            color='secondary'
             autoFocus>
             OK
           </Button>

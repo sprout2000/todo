@@ -1,7 +1,7 @@
 {
   "name": "todo",
   "description": "A simple todo-app for PWA",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://sprout2000.github.io/todo",
   "main": "index.js",
   "license": "MIT",

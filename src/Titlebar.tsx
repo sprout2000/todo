@@ -8,13 +8,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import Drawer from './Drawer';
-
 interface Props {
   title: string;
-  drawerOpen: boolean;
   toggleDrawer: Function;
-  handleOnSort: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,20 +35,19 @@ const Titlebar = (props: Props): JSX.Element => {
 
   return (
     <div className={classes.titlebar}>
-      <AppBar position="fixed">
+      <AppBar position='fixed'>
         <Toolbar>
           <IconButton
-            onClick={(): void => props.toggleDrawer(true)}
-            edge="start"
+            onClick={(): void => props.toggleDrawer()}
+            edge='start'
             className={classes.menuButton}
-            color="inherit"
-            aria-label="menu">
+            color='inherit'
+            aria-label='menu'>
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title}>{props.title}</Typography>
         </Toolbar>
       </AppBar>
-      <Drawer {...props} />
     </div>
   );
 };

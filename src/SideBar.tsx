@@ -1,7 +1,7 @@
 import React from 'react';
 import i18next from 'i18next';
 
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -18,7 +18,6 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
 
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
-import Icon from './icon-48.png';
 import pjson from '../package.json';
 
 interface Props {
@@ -53,20 +52,20 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Drawer = (props: Props): JSX.Element => {
+const SideBar = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <SwipeableDrawer
+    <Drawer
+      variant='temporary'
       open={props.drawerOpen}
-      onClose={(): void => props.toggleDrawer(false)}
-      onOpen={(): void => props.toggleDrawer(true)}>
+      onClose={(): void => props.toggleDrawer()}>
       <div
         className={classes.list}
-        role="presentation"
-        onClick={(): void => props.toggleDrawer(false)}>
+        role='presentation'
+        onClick={(): void => props.toggleDrawer()}>
         <div className={classes.drawerHeader}>
-          <img src={Icon} width={48} />
+          <img src='icons/icon-192.png' width={48} />
           <p>TODO v{pjson.version}</p>
         </div>
         <List>
@@ -99,8 +98,8 @@ const Drawer = (props: Props): JSX.Element => {
           <Divider />
         </List>
       </div>
-    </SwipeableDrawer>
+    </Drawer>
   );
 };
 
-export default Drawer;
+export default SideBar;
