@@ -10,7 +10,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 interface Props {
   newTitle: string;
   dialogOpen: boolean;
-  closeDialog: Function;
+  toggleDialog: Function;
   handleOnChange: Function;
   handleOnSubmit: Function;
 }
@@ -32,7 +32,7 @@ const FormDialog = (props: Props): JSX.Element => {
     <Dialog
       fullWidth
       open={props.dialogOpen}
-      onClose={(): void => props.closeDialog()}>
+      onClose={(): void => props.toggleDialog()}>
       <form
         onSubmit={(e): void => {
           e.preventDefault();

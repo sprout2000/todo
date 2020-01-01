@@ -3,17 +3,23 @@ import ReactDOM from 'react-dom';
 import localforage from 'localforage';
 import i18next from 'i18next';
 
+/** Fab and Icons */
 import Fab from '@material-ui/core/Fab';
-import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import CreateIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+/** Styles */
+import styled from '@material-ui/core/styles/styled';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+/** Components */
 import TitleBar from './TitleBar';
 import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
 
+/** Resources */
 import en from './locales/en.json';
 import ja from './locales/ja.json';
 
@@ -24,37 +30,19 @@ interface Todo {
   removed: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    '@global': {
-      html: {
-        margin: 0,
-        padding: 0,
-      },
-      body: {
-        margin: 0,
-        padding: 0,
-        backgroundColor: '#efeff4',
-      },
-      '#root': {
-        margin: 0,
-        padding: 0,
-      },
-    },
-    toolbar: theme.mixins.toolbar,
-    container: {
-      margin: '0 auto',
-      maxWidth: '640px',
-    },
-    fab: {
-      position: 'fixed',
-      right: 15,
-      bottom: 15,
-    },
-  })
-);
+const Container = styled('div')({
+  margin: '0 auto',
+  maxWidth: '640px',
+  fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
+});
 
-const Todo = (): JSX.Element => {
+const FabButton = styled(Fab)({
+  position: 'fixed',
+  right: 15,
+  bottom: 15,
+});
+
+const App = (): JSX.Element => {
   const initTodos: Todo[] = [];
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -65,6 +53,7 @@ const Todo = (): JSX.Element => {
   const [todos, setTodos] = useState(initTodos);
   const [filter, setFilter] = useState('all');
 
+  /** Load at once */
   useEffect(() => {
     const locale =
       (window.navigator.languages && window.navigator.languages[0]) ||
@@ -95,29 +84,23 @@ const Todo = (): JSX.Element => {
       .catch((err) => console.error(err));
   }, []);
 
+  /** Save on change */
   useEffect(() => {
     localforage.setItem('todo-20200101', todos).catch((err): void => {
       console.error(err);
     });
   }, [todos]);
 
+  /** Toggle controls */
   const toggleDrawer = (): void => setDrawerOpen(!drawerOpen);
 
-  const openDialog = (): void => {
-    setDialogOpen(true);
-  };
-
-  const closeDialog = (): void => {
-    setDialogOpen(false);
+  const toggleDialog = (): void => {
+    setDialogOpen(!dialogOpen);
     setNewTitle('');
   };
 
-  const openAlert = (): void => {
-    setAlertOpen(true);
-  };
-
-  const closeAlert = (): void => {
-    setAlertOpen(false);
+  const toggleAlert = (): void => {
+    setAlertOpen(!alertOpen);
   };
 
   const handleOnChange = (
@@ -128,7 +111,7 @@ const Todo = (): JSX.Element => {
 
   const handleOnSubmit = (): void => {
     if (!newTitle) {
-      closeDialog();
+      toggleDialog();
       return;
     }
 
@@ -137,7 +120,7 @@ const Todo = (): JSX.Element => {
       { id: newId, title: newTitle, checked: false, removed: false },
       ...todos,
     ]);
-    closeDialog();
+    toggleDialog();
   };
 
   const handleOnEdit = (id: number, title: string): void => {
@@ -224,57 +207,54 @@ const Todo = (): JSX.Element => {
     }
   );
 
-  const removedTodos = todos.filter((todo): boolean => todo.removed);
-  const classes = useStyles();
+  const removed = todos.filter((todo): boolean => todo.removed).length !== 0;
 
   return (
-    <div>
+    <React.Fragment>
+      <CssBaseline />
       <TitleBar title={setTitle()} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
       />
-      <div className={classes.toolbar} />
-      <div className={classes.container}>
-        <div>{todoItems}</div>
+      <FormDialog
+        dialogOpen={dialogOpen}
+        newTitle={newTitle}
+        toggleDialog={toggleDialog}
+        handleOnChange={handleOnChange}
+        handleOnSubmit={handleOnSubmit}
+      />
+      <AlertDialog
+        alertOpen={alertOpen}
+        toggleAlert={toggleAlert}
+        handleOnDelete={handleOnDelete}
+      />
+      <Container>
+        {todoItems}
         {filter === 'removed' ? (
-          <Fab
+          <FabButton
             aria-label='delete-button'
-            className={classes.fab}
             color='secondary'
-            onClick={openAlert}
-            disabled={removedTodos.length === 0}>
+            onClick={toggleAlert}
+            disabled={!removed || alertOpen}>
             <DeleteIcon />
-          </Fab>
+          </FabButton>
         ) : (
-          <Fab
+          <FabButton
             aria-label='add-button'
-            className={classes.fab}
             color='secondary'
-            onClick={openDialog}
-            disabled={filter !== 'all'}>
-            <CreateRoundedIcon />
-          </Fab>
+            onClick={toggleDialog}
+            disabled={filter !== 'all' || dialogOpen}>
+            <CreateIcon />
+          </FabButton>
         )}
-        <FormDialog
-          dialogOpen={dialogOpen}
-          newTitle={newTitle}
-          closeDialog={closeDialog}
-          handleOnChange={handleOnChange}
-          handleOnSubmit={handleOnSubmit}
-        />
-        <AlertDialog
-          alertOpen={alertOpen}
-          closeAlert={closeAlert}
-          handleOnDelete={handleOnDelete}
-        />
-      </div>
-    </div>
+      </Container>
+    </React.Fragment>
   );
 };
 
-ReactDOM.render(<Todo />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {

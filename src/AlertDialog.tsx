@@ -10,26 +10,26 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
   alertOpen: boolean;
-  closeAlert: Function;
+  toggleAlert: Function;
   handleOnDelete: Function;
 }
 
 const AlertDialog = (props: Props): JSX.Element => {
   return (
     <div>
-      <Dialog open={props.alertOpen} onClose={(): void => props.closeAlert()}>
+      <Dialog open={props.alertOpen} onClose={(): void => props.toggleAlert()}>
         <DialogTitle>{i18next.t('alert')}</DialogTitle>
         <DialogContent>
           <DialogContentText>{i18next.t('sure')}</DialogContentText>
           <DialogContentText>{i18next.t('cannot')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(): void => props.closeAlert()} color='primary'>
+          <Button onClick={(): void => props.toggleAlert()} color='primary'>
             {i18next.t('cancel')}
           </Button>
           <Button
             onClick={(): void => {
-              props.closeAlert();
+              props.toggleAlert();
               props.handleOnDelete();
             }}
             color='secondary'

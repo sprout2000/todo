@@ -29,13 +29,13 @@ interface Props {
 const useStyles = makeStyles(() =>
   createStyles({
     drawerHeader: {
-      height: 120,
+      height: 150,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       padding: '1em',
-      backgroundColor: indigo[300],
+      backgroundColor: indigo[500],
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
