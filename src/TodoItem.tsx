@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -38,11 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
       padding: theme.spacing(1),
+      fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
+    },
+    buttonContainer: {
+      marginTop: theme.spacing(1),
       display: 'flex',
       flexDirection: 'row',
-      alignItems: 'center',
       justifyContent: 'space-between',
-      fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
     },
     button: {
       display: 'flex',
@@ -55,10 +58,10 @@ const useStyles = makeStyles((theme: Theme) =>
       outline: 'none',
     },
     form: {
+      marginTop: theme.spacing(1),
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
       fontSize: '16px',
-      width: '100%',
     },
     trashContainer: {
       display: 'flex',
@@ -97,24 +100,6 @@ const TodoItem = (props: Props): JSX.Element => {
 
   return (
     <Card className={classes.card}>
-      <button
-        className={classes.button}
-        onClick={handleOnCheck}
-        disabled={props.filter === 'removed'}>
-        {props.todo.checked ? (
-          <CheckIcon
-            style={{
-              color: props.filter !== 'removed' ? pink.A200 : grey[500],
-            }}
-          />
-        ) : (
-          <RadioButtonUncheckedIcon
-            style={{
-              color: props.filter !== 'removed' ? lightBlue[500] : grey[500],
-            }}
-          />
-        )}
-      </button>
       <div className={classes.form}>
         <TextField
           fullWidth
@@ -123,7 +108,32 @@ const TodoItem = (props: Props): JSX.Element => {
           disabled={props.todo.checked || props.todo.removed}
         />
       </div>
-      <div>
+      <div className={classes.buttonContainer}>
+        <div>
+          <button
+            className={classes.button}
+            onClick={handleOnCheck}
+            disabled={props.filter === 'removed'}>
+            {props.todo.checked ? (
+              <CheckIcon
+                style={{
+                  color: props.filter !== 'removed' ? pink.A200 : grey[500],
+                }}
+              />
+            ) : (
+              <RadioButtonUncheckedIcon
+                style={{
+                  color:
+                    props.filter !== 'removed' ? lightBlue[500] : grey[500],
+                }}
+              />
+            )}
+            <Typography
+              style={{ color: props.todo.checked ? pink.A200 : grey[700] }}>
+              Done
+            </Typography>
+          </button>
+        </div>
         <button onClick={handleOnRemove} className={classes.trash}>
           {props.todo.removed ? (
             <UndoIcon style={{ color: lightBlue[500] }} />
