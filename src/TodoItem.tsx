@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
       cursor: 'pointer',
       outline: 'none',
     },
+    done: {
+      userSelect: 'none',
+    },
     form: {
       marginTop: theme.spacing(1),
       marginLeft: theme.spacing(1),
@@ -129,6 +132,7 @@ const TodoItem = (props: Props): JSX.Element => {
               />
             )}
             <Typography
+              className={classes.done}
               style={{
                 color:
                   props.todo.checked && props.filter !== 'removed'
