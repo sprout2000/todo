@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 interface Props {
-  newTitle: string;
+  text: string;
   dialogOpen: boolean;
   toggleDialog: Function;
   handleOnChange: Function;
@@ -43,7 +43,7 @@ const FormDialog = (props: Props): JSX.Element => {
           className={classes.input}
           label={i18next.t('whattodo')}
           onChange={(e): void => props.handleOnChange(e)}
-          value={props.newTitle}
+          value={props.text}
           autoFocus
         />
         <DialogActions>

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const TopBar = (props: Props): JSX.Element => {
+const ToolBar = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -46,4 +46,4 @@ const TopBar = (props: Props): JSX.Element => {
   );
 };
 
-export default TopBar;
+export default ToolBar;

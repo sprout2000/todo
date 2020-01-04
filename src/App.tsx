@@ -14,7 +14,7 @@ import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 /** Components */
-import TopBar from './TopBar';
+import ToolBar from './ToolBar';
 import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
@@ -33,7 +33,7 @@ interface Todo {
 
 interface State {
   todos: Todo[];
-  newTitle: string;
+  text: string;
   filter: string;
   drawerOpen: false;
   dialogOpen: false;
@@ -55,7 +55,7 @@ const FabButton = styled(Fab)({
 class App extends React.Component {
   public state: State = {
     todos: [],
-    newTitle: '',
+    text: '',
     filter: 'all',
     drawerOpen: false,
     dialogOpen: false,
@@ -108,7 +108,7 @@ class App extends React.Component {
 
   private toggleDialog = (): void => {
     this.setState({ dialogOpen: !this.state.dialogOpen });
-    this.setState({ newTitle: '' });
+    this.setState({ text: '' });
   };
 
   private toggleAlert = (): void => {
@@ -118,11 +118,11 @@ class App extends React.Component {
   private handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    this.setState({ newTitle: e.target.value });
+    this.setState({ text: e.target.value });
   };
 
   private handleOnSubmit = (): void => {
-    if (!this.state.newTitle) {
+    if (!this.state.text) {
       this.toggleDialog();
       return;
     }
@@ -132,7 +132,7 @@ class App extends React.Component {
       todos: [
         {
           id: newId,
-          title: this.state.newTitle,
+          title: this.state.text,
           checked: false,
           removed: false,
         },
@@ -231,7 +231,7 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <TopBar title={this.setTitle()} toggleDrawer={this.toggleDrawer} />
+        <ToolBar title={this.setTitle()} toggleDrawer={this.toggleDrawer} />
         <SideBar
           toggleDrawer={this.toggleDrawer}
           drawerOpen={this.state.drawerOpen}
@@ -239,7 +239,7 @@ class App extends React.Component {
         />
         <FormDialog
           dialogOpen={this.state.dialogOpen}
-          newTitle={this.state.newTitle}
+          text={this.state.text}
           toggleDialog={this.toggleDialog}
           handleOnChange={(
             e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
