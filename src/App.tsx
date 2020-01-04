@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import localforage from 'localforage';
 import i18next from 'i18next';
@@ -31,6 +31,15 @@ interface Todo {
   removed: boolean;
 }
 
+interface State {
+  todos: Todo[];
+  newTitle: string;
+  filter: string;
+  drawerOpen: false;
+  dialogOpen: false;
+  alertOpen: false;
+}
+
 const Container = styled('div')({
   margin: '0 auto',
   maxWidth: '640px',
@@ -43,19 +52,17 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
-const App = (): JSX.Element => {
-  const initTodos: Todo[] = [];
+class App extends React.Component {
+  public state: State = {
+    todos: [],
+    newTitle: '',
+    filter: 'all',
+    drawerOpen: false,
+    dialogOpen: false,
+    alertOpen: false,
+  };
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-
-  const [newTitle, setNewTitle] = useState('');
-  const [todos, setTodos] = useState(initTodos);
-  const [filter, setFilter] = useState('all');
-
-  /** Load at once */
-  useEffect(() => {
+  public componentDidMount = (): void => {
     const locale =
       (window.navigator.languages && window.navigator.languages[0]) ||
       window.navigator.language;
@@ -77,183 +84,197 @@ const App = (): JSX.Element => {
       .getItem('todo-20200101')
       .then((value) => {
         if (!value) {
-          setTodos([]);
+          this.setState({ todos: [] });
         } else {
-          setTodos(value as Todo[]);
+          this.setState({ todos: value });
         }
       })
       .catch((err) => console.error(err));
-  }, []);
-
-  /** Save on change */
-  useEffect(() => {
-    localforage.setItem('todo-20200101', todos).catch((err): void => {
-      console.error(err);
-    });
-  }, [todos]);
-
-  /** Toggle controls */
-  const toggleDrawer = (): void => setDrawerOpen(!drawerOpen);
-
-  const toggleDialog = (): void => {
-    setDialogOpen(!dialogOpen);
-    setNewTitle('');
   };
 
-  const toggleAlert = (): void => {
-    setAlertOpen(!alertOpen);
+  public componentDidUpdate = (_prevProps: State, prevState: State): void => {
+    if (this.state.todos !== prevState.todos) {
+      localforage
+        .setItem('todo-20200101', this.state.todos)
+        .catch((err): void => {
+          console.error(err);
+        });
+    }
   };
 
-  const handleOnChange = (
+  private toggleDrawer = (): void => {
+    this.setState({ drawerOpen: !this.state.drawerOpen });
+  };
+
+  private toggleDialog = (): void => {
+    this.setState({ dialogOpen: !this.state.dialogOpen });
+    this.setState({ newTitle: '' });
+  };
+
+  private toggleAlert = (): void => {
+    this.setState({ alertOpen: !this.state.alertOpen });
+  };
+
+  private handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    setNewTitle(e.target.value);
+    this.setState({ newTitle: e.target.value });
   };
 
-  const handleOnSubmit = (): void => {
-    if (!newTitle) {
-      toggleDialog();
+  private handleOnSubmit = (): void => {
+    if (!this.state.newTitle) {
+      this.toggleDialog();
       return;
     }
 
     const newId = new Date().getTime();
-    setTodos([
-      { id: newId, title: newTitle, checked: false, removed: false },
-      ...todos,
-    ]);
-    toggleDialog();
+    this.setState({
+      todos: [
+        {
+          id: newId,
+          title: this.state.newTitle,
+          checked: false,
+          removed: false,
+        },
+        ...this.state.todos,
+      ],
+    });
+    this.toggleDialog();
   };
 
-  const handleOnEdit = (id: number, title: string): void => {
-    const newTodos = todos.map((todo: Todo) => {
+  private handleOnEdit = (id: number, title: string): void => {
+    const newTodos = this.state.todos.map((todo) => {
       if (todo.id === id) {
         todo.title = title;
       }
       return todo;
     });
 
-    setTodos(newTodos);
+    this.setState({ todos: newTodos });
   };
 
-  const handleOnCheck = (id: number, checked: boolean): void => {
-    const newTodos = todos.map((todo) => {
+  private handleOnCheck = (id: number, checked: boolean): void => {
+    const newTodos = this.state.todos.map((todo) => {
       if (todo.id === id) {
         todo.checked = checked;
       }
       return todo;
     });
 
-    setTodos(newTodos);
+    this.setState({ todos: newTodos });
   };
 
-  const handleOnRemove = (id: number, removed: boolean): void => {
-    const newTodos = todos.filter((todo: Todo) => {
+  private handleOnRemove = (id: number, removed: boolean): void => {
+    const newTodos = this.state.todos.filter((todo) => {
       if (todo.id === id) {
         todo.removed = removed;
       }
       return todo;
     });
 
-    setTodos(newTodos);
+    this.setState({ todos: newTodos });
   };
 
-  const handleOnDelete = (): void => {
-    const newTodos: Todo[] = todos.filter(
-      (todo: Todo): boolean => todo.removed !== true
-    );
+  private handleOnDelete = (): void => {
+    const newTodos = this.state.todos.filter((todo) => !todo.removed);
 
-    setTodos(newTodos);
+    this.setState({ todos: newTodos });
   };
 
-  const handleOnSort = (filter: string): void => {
-    setFilter(filter);
+  private handleOnSort = (filter: string): void => {
+    this.setState({ filter });
   };
 
-  const setTitle = (): string => {
-    if (filter === 'all') {
+  private setTitle = (): string => {
+    if (this.state.filter === 'all') {
       return i18next.t('all');
-    } else if (filter === 'complete') {
+    } else if (this.state.filter === 'complete') {
       return i18next.t('complete');
-    } else if (filter === 'incomplete') {
+    } else if (this.state.filter === 'incomplete') {
       return i18next.t('incomplete');
     } else {
       return i18next.t('trash');
     }
   };
 
-  const filteredTodos = todos.filter((todo): boolean => {
-    if (filter === 'complete') {
-      return todo.checked && !todo.removed;
-    } else if (filter === 'incomplete') {
-      return !todo.checked && !todo.removed;
-    } else if (filter === 'removed') {
-      return todo.removed;
-    } else {
-      return !todo.removed;
-    }
-  });
+  public render = (): JSX.Element => {
+    const filteredTodos = this.state.todos.filter((todo): boolean => {
+      if (this.state.filter === 'complete') {
+        return todo.checked && !todo.removed;
+      } else if (this.state.filter === 'incomplete') {
+        return !todo.checked && !todo.removed;
+      } else if (this.state.filter === 'removed') {
+        return todo.removed;
+      } else {
+        return !todo.removed;
+      }
+    });
 
-  const todoItems = filteredTodos.map(
-    (todo): JSX.Element => {
-      return (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          filter={filter}
-          onEdit={handleOnEdit}
-          onCheck={handleOnCheck}
-          onRemove={handleOnRemove}
+    const todoItems = filteredTodos.map(
+      (todo): JSX.Element => {
+        return (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            filter={this.state.filter}
+            onEdit={this.handleOnEdit}
+            onCheck={this.handleOnCheck}
+            onRemove={this.handleOnRemove}
+          />
+        );
+      }
+    );
+
+    const removed =
+      this.state.todos.filter((todo): boolean => todo.removed).length !== 0;
+
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <TopBar title={this.setTitle()} toggleDrawer={this.toggleDrawer} />
+        <SideBar
+          toggleDrawer={this.toggleDrawer}
+          drawerOpen={this.state.drawerOpen}
+          handleOnSort={this.handleOnSort}
         />
-      );
-    }
-  );
-
-  const removed = todos.filter((todo): boolean => todo.removed).length !== 0;
-
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <TopBar title={setTitle()} toggleDrawer={toggleDrawer} />
-      <SideBar
-        toggleDrawer={toggleDrawer}
-        drawerOpen={drawerOpen}
-        handleOnSort={handleOnSort}
-      />
-      <FormDialog
-        dialogOpen={dialogOpen}
-        newTitle={newTitle}
-        toggleDialog={toggleDialog}
-        handleOnChange={handleOnChange}
-        handleOnSubmit={handleOnSubmit}
-      />
-      <AlertDialog
-        alertOpen={alertOpen}
-        toggleAlert={toggleAlert}
-        handleOnDelete={handleOnDelete}
-      />
-      <Container>
-        {todoItems}
-        {filter === 'removed' ? (
-          <FabButton
-            aria-label='delete-button'
-            color='secondary'
-            onClick={toggleAlert}
-            disabled={!removed || alertOpen}>
-            <DeleteIcon />
-          </FabButton>
-        ) : (
-          <FabButton
-            aria-label='add-button'
-            color='secondary'
-            onClick={toggleDialog}
-            disabled={filter !== 'all' || dialogOpen}>
-            <CreateIcon />
-          </FabButton>
-        )}
-      </Container>
-    </React.Fragment>
-  );
-};
+        <FormDialog
+          dialogOpen={this.state.dialogOpen}
+          newTitle={this.state.newTitle}
+          toggleDialog={this.toggleDialog}
+          handleOnChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+          ): void => this.handleOnChange(e)}
+          handleOnSubmit={this.handleOnSubmit}
+        />
+        <AlertDialog
+          alertOpen={this.state.alertOpen}
+          toggleAlert={this.toggleAlert}
+          handleOnDelete={(): void => this.handleOnDelete()}
+        />
+        <Container>
+          {todoItems}
+          {this.state.filter === 'removed' ? (
+            <FabButton
+              aria-label='delete-button'
+              color='secondary'
+              onClick={this.toggleAlert}
+              disabled={!removed || this.state.alertOpen}>
+              <DeleteIcon />
+            </FabButton>
+          ) : (
+            <FabButton
+              aria-label='add-button'
+              color='secondary'
+              onClick={this.toggleDialog}
+              disabled={this.state.filter !== 'all' || this.state.dialogOpen}>
+              <CreateIcon />
+            </FabButton>
+          )}
+        </Container>
+      </React.Fragment>
+    );
+  };
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
