@@ -31,6 +31,18 @@ interface Todo {
   removed: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const typeguardTodo = (arg: any): arg is Todo => {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    typeof arg.id === 'number' &&
+    typeof arg.title === 'string' &&
+    typeof arg.checked === 'boolean' &&
+    typeof arg.removed === 'boolean'
+  );
+};
+
 const Container = styled('div')({
   margin: '0 auto',
   maxWidth: '640px',
@@ -72,11 +84,15 @@ const App = (): JSX.Element => {
 
     localforage
       .getItem('todo-20200101')
-      .then((value) => {
-        if (!value) {
+      .then((values) => {
+        if (!values || !Array.isArray(values)) {
           setTodos([]);
         } else {
-          setTodos(value as Todo[]);
+          const newTodos: Todo[] = [];
+          for (const val of values) {
+            if (typeguardTodo(val)) newTodos.push(val);
+          }
+          setTodos(newTodos);
         }
       })
       .catch((err) => console.error(err));
