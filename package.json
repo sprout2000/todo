@@ -21,7 +21,7 @@
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
-    "push": "git push --follow-tags origin master"
+    "release:push": "git push --follow-tags origin master"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.8",
