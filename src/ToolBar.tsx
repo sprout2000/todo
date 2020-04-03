@@ -30,14 +30,14 @@ const ToolBar = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <AppBar position='sticky'>
+    <AppBar position="sticky">
       <Toolbar>
         <IconButton
           onClick={(): void => props.toggleDrawer()}
-          edge='start'
+          edge="start"
           className={classes.menuButton}
-          color='inherit'
-          aria-label='menu'>
+          color="inherit"
+          aria-label="menu">
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title}>{props.title}</Typography>

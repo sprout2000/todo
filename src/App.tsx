@@ -249,16 +249,16 @@ const App = (): JSX.Element => {
         {todoItems}
         {filter === 'removed' ? (
           <FabButton
-            aria-label='delete-button'
-            color='secondary'
+            aria-label="delete-button"
+            color="secondary"
             onClick={toggleAlert}
             disabled={!removed || alertOpen}>
             <DeleteIcon />
           </FabButton>
         ) : (
           <FabButton
-            aria-label='add-button'
-            color='secondary'
+            aria-label="add-button"
+            color="secondary"
             onClick={toggleDialog}
             disabled={filter !== 'all' || dialogOpen}>
             <CreateIcon />

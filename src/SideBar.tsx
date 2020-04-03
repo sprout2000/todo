@@ -70,12 +70,12 @@ const SideBar = (props: Props): JSX.Element => {
 
   return (
     <Drawer
-      variant='temporary'
+      variant="temporary"
       open={props.drawerOpen}
       onClose={(): void => props.toggleDrawer()}>
       <div
         className={classes.list}
-        role='presentation'
+        role="presentation"
         onClick={(): void => props.toggleDrawer()}>
         <div className={classes.drawerHeader}>
           <Avatar className={classes.avatar}>

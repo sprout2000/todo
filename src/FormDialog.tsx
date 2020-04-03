@@ -47,7 +47,7 @@ const FormDialog = (props: Props): JSX.Element => {
           autoFocus
         />
         <DialogActions>
-          <Button color='primary' onClick={(): void => props.handleOnSubmit()}>
+          <Button color="primary" onClick={(): void => props.handleOnSubmit()}>
             {i18next.t('add')}
           </Button>
         </DialogActions>
