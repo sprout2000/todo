@@ -13,8 +13,8 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 interface Props {
   alertOpen: boolean;
-  toggleAlert: Function;
-  handleOnDelete: Function;
+  toggleAlert: () => void;
+  handleOnDelete: () => void;
 }
 
 const useStyles = makeStyles(() =>
