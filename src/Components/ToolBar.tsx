@@ -11,7 +11,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 interface Props {
   title: string;
-  toggleDrawer: Function;
+  toggleDrawer: () => void;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const ToolBar = (props: Props): JSX.Element => {
+const ToolBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

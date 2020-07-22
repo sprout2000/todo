@@ -13,8 +13,8 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 interface Props {
   alertOpen: boolean;
-  toggleAlert: Function;
-  handleOnDelete: Function;
+  toggleAlert: () => void;
+  handleOnDelete: () => void;
 }
 
 const useStyles = makeStyles(() =>
@@ -25,7 +25,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const AlertDialog = (props: Props): JSX.Element => {
+const AlertDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

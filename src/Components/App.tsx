@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import localforage from 'localforage';
 import i18next from 'i18next';
 
@@ -21,15 +20,11 @@ import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
 
 /** Resources */
-import en from './locales/en.json';
-import ja from './locales/ja.json';
+import en from '../locales/en.json';
+import ja from '../locales/ja.json';
 
-interface Todo {
-  id: number;
-  title: string;
-  checked: boolean;
-  removed: boolean;
-}
+/** Types for Todo */
+import { Todo } from '../Todo';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const typeguardTodo = (arg: any): arg is Todo => {
@@ -55,9 +50,8 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
-const App = (): JSX.Element => {
-  const initTodos: Todo[] = [];
-  const [todos, setTodos] = useState(initTodos);
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
   const [filter, setFilter] = useState('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -126,6 +120,7 @@ const App = (): JSX.Element => {
     }
 
     const newId = new Date().getTime();
+    const oldTodos = todos.slice();
     setTodos([
       {
         id: newId,
@@ -133,7 +128,7 @@ const App = (): JSX.Element => {
         checked: false,
         removed: false,
       },
-      ...todos,
+      ...oldTodos,
     ]);
     toggleDialog();
   };
@@ -269,17 +264,4 @@ const App = (): JSX.Element => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./service-worker.js')
-      .then((registration) => {
-        console.log('SW registered: ', registration);
-      })
-      .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
+export default App;

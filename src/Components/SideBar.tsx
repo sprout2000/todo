@@ -27,12 +27,12 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
 /** Resources */
-import pjson from '../package.json';
+import pjson from '../../package.json';
 
 interface Props {
   drawerOpen: boolean;
-  toggleDrawer: Function;
-  handleOnSort: Function;
+  toggleDrawer: () => void;
+  handleOnSort: (filter: string) => void;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const SideBar = (props: Props): JSX.Element => {
+const SideBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

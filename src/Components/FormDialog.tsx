@@ -10,9 +10,11 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 interface Props {
   text: string;
   dialogOpen: boolean;
-  toggleDialog: Function;
-  handleOnChange: Function;
-  handleOnSubmit: Function;
+  toggleDialog: () => void;
+  handleOnChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleOnSubmit: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FormDialog = (props: Props): JSX.Element => {
+const FormDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
