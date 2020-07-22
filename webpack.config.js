@@ -42,7 +42,7 @@ module.exports = {
         test: /\.(bmp|gif|png|jpe?g|svg|ttf|eot|woff?2?)$/,
         loader: 'file-loader',
         options: {
-          name: 'icons/[name].[ext]',
+          name: 'fonts/[name].[ext]',
         },
       },
     ],
