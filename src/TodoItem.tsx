@@ -14,12 +14,8 @@ import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-interface Todo {
-  id: number;
-  title: string;
-  checked: boolean;
-  removed: boolean;
-}
+/** Types for Todo */
+import { Todo } from './Todo';
 
 interface Props {
   todo: Todo;
@@ -81,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const TodoItem = (props: Props): JSX.Element => {
+const TodoItem: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   const handleOnEdit = (
