@@ -23,12 +23,8 @@ import TodoItem from './TodoItem';
 import en from './locales/en.json';
 import ja from './locales/ja.json';
 
-interface Todo {
-  id: number;
-  title: string;
-  checked: boolean;
-  removed: boolean;
-}
+/** Types for Todo */
+import { Todo } from './Todo';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const typeguardTodo = (arg: any): arg is Todo => {
