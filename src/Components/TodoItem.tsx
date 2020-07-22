@@ -15,7 +15,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 /** Types for Todo */
-import { Todo } from './Todo';
+import { Todo } from '../Todo';
 
 interface Props {
   todo: Todo;

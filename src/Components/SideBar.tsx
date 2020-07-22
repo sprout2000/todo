@@ -27,7 +27,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
 /** Resources */
-import pjson from '../package.json';
+import pjson from '../../package.json';
 
 interface Props {
   drawerOpen: boolean;

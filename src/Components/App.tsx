@@ -20,11 +20,11 @@ import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
 
 /** Resources */
-import en from './locales/en.json';
-import ja from './locales/ja.json';
+import en from '../locales/en.json';
+import ja from '../locales/ja.json';
 
 /** Types for Todo */
-import { Todo } from './Todo';
+import { Todo } from '../Todo';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const typeguardTodo = (arg: any): arg is Todo => {
