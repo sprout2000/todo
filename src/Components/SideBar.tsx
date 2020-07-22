@@ -29,10 +29,13 @@ import createStyles from '@material-ui/core/styles/createStyles';
 /** Resources */
 import pjson from '../../package.json';
 
+/** Types for Filter */
+import { Filter } from '../Filter';
+
 interface Props {
   drawerOpen: boolean;
   toggleDrawer: () => void;
-  handleOnSort: (filter: string) => void;
+  handleOnSort: (filter: Filter) => void;
 }
 
 const useStyles = makeStyles((theme) =>
