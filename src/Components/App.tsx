@@ -120,6 +120,7 @@ const App: React.FC = () => {
     }
 
     const newId = new Date().getTime();
+    const oldTodos = todos.slice();
     setTodos([
       {
         id: newId,
@@ -127,7 +128,7 @@ const App: React.FC = () => {
         checked: false,
         removed: false,
       },
-      ...todos,
+      ...oldTodos,
     ]);
     toggleDialog();
   };
