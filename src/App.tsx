@@ -50,7 +50,7 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
-const App = (): JSX.Element => {
+const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
   const [filter, setFilter] = useState('all');
