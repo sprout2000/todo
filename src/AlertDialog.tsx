@@ -25,7 +25,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const AlertDialog = (props: Props): JSX.Element => {
+const AlertDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
