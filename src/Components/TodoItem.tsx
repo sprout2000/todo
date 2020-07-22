@@ -14,15 +14,16 @@ import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-/** Types for Todo */
+/** Types for Todo & Filter */
 import { Todo } from '../Todo';
+import { Filter } from '../Filter';
 
 interface Props {
   todo: Todo;
   onEdit: (id: number, title: string) => void;
   onCheck: (id: number, checked: boolean) => void;
   onRemove: (id: number, removed: boolean) => void;
-  filter: string;
+  filter: Filter;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
