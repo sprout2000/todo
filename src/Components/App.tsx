@@ -23,8 +23,9 @@ import TodoItem from './TodoItem';
 import en from '../locales/en.json';
 import ja from '../locales/ja.json';
 
-/** Types for Todo */
+/** Types for Todo & Filter */
 import { Todo } from '../Todo';
+import { Filter } from '../Filter';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const typeguardTodo = (arg: any): arg is Todo => {
@@ -53,7 +54,7 @@ const FabButton = styled(Fab)({
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -172,7 +173,7 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  const handleOnSort = (filter: string): void => {
+  const handleOnSort = (filter: Filter): void => {
     setFilter(filter);
   };
 
