@@ -55,8 +55,7 @@ const FabButton = styled(Fab)({
 });
 
 const App = (): JSX.Element => {
-  const initTodos: Todo[] = [];
-  const [todos, setTodos] = useState(initTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
   const [filter, setFilter] = useState('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
