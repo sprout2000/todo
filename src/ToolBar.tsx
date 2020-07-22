@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const ToolBar = (props: Props): JSX.Element => {
+const ToolBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

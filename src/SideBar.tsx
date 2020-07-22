@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const SideBar = (props: Props): JSX.Element => {
+const SideBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

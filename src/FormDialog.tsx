@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FormDialog = (props: Props): JSX.Element => {
+const FormDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
