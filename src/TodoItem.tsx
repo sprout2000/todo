@@ -23,9 +23,9 @@ interface Todo {
 
 interface Props {
   todo: Todo;
-  onEdit: Function;
-  onCheck: Function;
-  onRemove: Function;
+  onEdit: (id: number, title: string) => void;
+  onCheck: (id: number, checked: boolean) => void;
+  onRemove: (id: number, removed: boolean) => void;
   filter: string;
 }
 

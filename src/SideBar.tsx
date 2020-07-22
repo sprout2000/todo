@@ -31,8 +31,8 @@ import pjson from '../package.json';
 
 interface Props {
   drawerOpen: boolean;
-  toggleDrawer: Function;
-  handleOnSort: Function;
+  toggleDrawer: () => void;
+  handleOnSort: (filter: string) => void;
 }
 
 const useStyles = makeStyles((theme) =>

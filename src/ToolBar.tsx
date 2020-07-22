@@ -11,7 +11,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 interface Props {
   title: string;
-  toggleDrawer: Function;
+  toggleDrawer: () => void;
 }
 
 const useStyles = makeStyles((theme) =>
