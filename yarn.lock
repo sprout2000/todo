@@ -1313,6 +1313,13 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
+"@types/copy-webpack-plugin@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@types/copy-webpack-plugin/-/copy-webpack-plugin-6.3.0.tgz#bb7fe72fccf75d9096fda2610ec01e9e8b19336f"
+  integrity sha512-b5FXqKbP3e3tKtC6520w9q7nkxBw+5TxQotiFx0M+VMpLlJNfgWINjHPPJSZEhMzb/iIGrkTDBhqotmzV9f5uQ==
+  dependencies:
+    "@types/webpack" "*"
+
 "@types/css-minimizer-webpack-plugin@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-1.1.1.tgz#7a31852db8892d45019964d489087c70b0f422eb"
@@ -1378,6 +1385,13 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
+"@types/mini-css-extract-plugin@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@types/mini-css-extract-plugin/-/mini-css-extract-plugin-1.2.2.tgz#e6031da8d60777b3da3f5b4daf285437d7b6580b"
+  integrity sha512-EoHBJ4rcrd5j7weAFE4yU1gxedx53EFCWKso03G7DW0h2YvtwjKYz/NnuFHudcQDI1HpTLqoQFTwEgfJxygYCw==
+  dependencies:
+    "@types/webpack" "*"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -1437,6 +1451,14 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.6.tgz#a9ca4b70a18b270ccb2bc0aaafefd1d486b7ea74"
   integrity sha512-W+bw9ds02rAQaMvaLYxAbJ6cvguW/iJXNT6lTssS1ps6QdrMKttqEAMEG/b5CR8TZl3/L7/lH0ZV5nNR1LXikA==
 
+"@types/terser-webpack-plugin@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/terser-webpack-plugin/-/terser-webpack-plugin-5.0.2.tgz#ebc935cfb9a0cc5ef33934ab63202e16cdf6a961"
+  integrity sha512-YcAT1D4gjho1jqc/gjn1ojHFtQtrGHaHPqz5nDMiN5Jj9BeigjDkS2w010PvUnPkdVY3GerDFbY62TArtDBuDQ==
+  dependencies:
+    terser "^5.3.8"
+    webpack "^5.1.0"
+
 "@types/uglify-js@*":
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.9.3.tgz#d94ed608e295bc5424c9600e6b8565407b6b4b6b"
@@ -1476,6 +1498,11 @@
     "@types/uglify-js" "*"
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
+
+"@types/workbox-webpack-plugin@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@types/workbox-webpack-plugin/-/workbox-webpack-plugin-5.1.5.tgz#3c54ebf8864b4039dab7fe7cb5cf6acd7fbc31fd"
+  integrity sha512-FLFbhnilR3MXCkaRx7D9rxeRlvHwTl6bMnRa1gJux1wSFbTRb9E1K1kQeyxCYuuUAqk3C/QABCg1FAl4onZrDQ==
 
 "@typescript-eslint/eslint-plugin@^4.9.1":
   version "4.9.1"
@@ -7365,7 +7392,7 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@^5.10.0:
+webpack@^5.1.0, webpack@^5.10.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.10.0.tgz#6f77c31522a2c525152d9c344f9765d168b3df08"
   integrity sha512-P0bHAXmIz0zsNcHNLqFmLY1ZtrT+jtBr7FqpuDtA2o7GiHC+zBsfhgK7SmJ1HG7BAEb3G9JoMdSVi7mEDvG3Zg==
