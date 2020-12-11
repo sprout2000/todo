@@ -25,8 +25,8 @@
     "core-js": "^3.8.1",
     "i18next": "^19.8.4",
     "localforage": "^1.9.0",
-    "react": "^16.14",
-    "react-dom": "^16.14",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "typeface-roboto": "1.1.13",
     "workbox-sw": "^6.0.2"
   },
