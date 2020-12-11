@@ -22,6 +22,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.1",
     "@material-ui/icons": "^4.9.1",
+    "core-js": "^3.8.1",
     "i18next": "^19.8.4",
     "localforage": "^1.9.0",
     "react": "^16.14",
@@ -38,7 +39,6 @@
     "@types/webpack": "^4.41.25",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
-    "core-js": "^3.8.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
