@@ -25,19 +25,11 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "prettier",
     "prettier/react",
     "prettier/@typescript-eslint"
   ],
   "rules": {
     "react/prop-types": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.js"],
-      "rules": {
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/explicit-function-return-type": "off"
-      }
-    }
-  ]
+  }
 }
