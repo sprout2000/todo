@@ -17,7 +17,7 @@ const config: Configuration = {
   },
   entry: './src/main.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     publicPath: '',
     filename: 'app.js',
     assetModuleFilename: 'images/[name][ext]',
@@ -88,7 +88,7 @@ const config: Configuration = {
   },
   devtool: isDev ? 'inline-source-map' : false,
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, 'public'),
     port: 8888,
     open: true,
   },
