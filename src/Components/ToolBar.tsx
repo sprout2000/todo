@@ -1,11 +1,13 @@
 import React from 'react';
 
+/** MUI Components */
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+/** Styles */
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
@@ -33,7 +35,7 @@ const ToolBar: React.FC<Props> = (props) => {
     <AppBar position="sticky">
       <Toolbar>
         <IconButton
-          onClick={(): void => props.toggleDrawer()}
+          onClick={props.toggleDrawer}
           edge="start"
           className={classes.menuButton}
           color="inherit"

@@ -18,6 +18,7 @@ import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
+import QR from './QR';
 
 /** Resources */
 import en from '../locales/en.json';
@@ -58,6 +59,7 @@ const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
 
   useEffect(() => {
     const locale =
@@ -94,27 +96,25 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localforage.setItem('todo-20200101', todos).catch((err): void => {
+    localforage.setItem('todo-20200101', todos).catch((err) => {
       console.error(err);
     });
   }, [todos]);
 
-  const toggleDrawer = (): void => setDrawerOpen(!drawerOpen);
+  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
-  const toggleDialog = (): void => {
+  const toggleDialog = () => {
     setDialogOpen(!dialogOpen);
     setText('');
   };
 
-  const toggleAlert = (): void => setAlertOpen(!alertOpen);
+  const toggleAlert = () => setAlertOpen(!alertOpen);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    setText(e.target.value);
-  };
+  ) => setText(e.target.value);
 
-  const handleOnSubmit = (): void => {
+  const handleOnSubmit = () => {
     if (!text) {
       toggleDialog();
       return;
@@ -134,7 +134,7 @@ const App: React.FC = () => {
     toggleDialog();
   };
 
-  const handleOnEdit = (id: number, title: string): void => {
+  const handleOnEdit = (id: number, title: string) => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.title = title;
@@ -145,7 +145,7 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  const handleOnCheck = (id: number, checked: boolean): void => {
+  const handleOnCheck = (id: number, checked: boolean) => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.checked = checked;
@@ -156,7 +156,7 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  const handleOnRemove = (id: number, removed: boolean): void => {
+  const handleOnRemove = (id: number, removed: boolean) => {
     const newTodos = todos.filter((todo) => {
       if (todo.id === id) {
         todo.removed = removed;
@@ -167,17 +167,20 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  const handleOnDelete = (): void => {
+  const handleOnDelete = () => {
     const newTodos = todos.filter((todo) => !todo.removed);
 
     setTodos(newTodos);
   };
 
-  const handleOnSort = (filter: Filter): void => {
+  const handleOnSort = (filter: Filter) => {
     setFilter(filter);
   };
 
-  const setTitle = (): string => {
+  const onQROpen = () => setQrOpen(true);
+  const onQRClose = () => setQrOpen(false);
+
+  const setTitle = () => {
     if (filter === 'all') {
       return i18next.t('all');
     } else if (filter === 'complete') {
@@ -189,7 +192,7 @@ const App: React.FC = () => {
     }
   };
 
-  const filteredTodos = todos.filter((todo): boolean => {
+  const filteredTodos = todos.filter((todo) => {
     if (filter === 'complete') {
       return todo.checked && !todo.removed;
     } else if (filter === 'incomplete') {
@@ -201,31 +204,31 @@ const App: React.FC = () => {
     }
   });
 
-  const todoItems = filteredTodos.map(
-    (todo): JSX.Element => {
-      return (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          filter={filter}
-          onEdit={handleOnEdit}
-          onCheck={handleOnCheck}
-          onRemove={handleOnRemove}
-        />
-      );
-    }
-  );
+  const todoItems = filteredTodos.map((todo) => {
+    return (
+      <TodoItem
+        key={todo.id}
+        todo={todo}
+        filter={filter}
+        onEdit={handleOnEdit}
+        onCheck={handleOnCheck}
+        onRemove={handleOnRemove}
+      />
+    );
+  });
 
-  const removed = todos.filter((todo): boolean => todo.removed).length !== 0;
+  const removed = todos.filter((todo) => todo.removed).length !== 0;
 
   return (
     <React.Fragment>
       <CssBaseline />
+      <QR open={qrOpen} onClose={onQRClose} />
       <ToolBar title={setTitle()} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
+        onQROpen={onQROpen}
       />
       <FormDialog
         dialogOpen={dialogOpen}
@@ -239,7 +242,7 @@ const App: React.FC = () => {
       <AlertDialog
         alertOpen={alertOpen}
         toggleAlert={toggleAlert}
-        handleOnDelete={(): void => handleOnDelete()}
+        handleOnDelete={handleOnDelete}
       />
       <Container>
         {todoItems}
@@ -256,7 +259,7 @@ const App: React.FC = () => {
             aria-label="add-button"
             color="secondary"
             onClick={toggleDialog}
-            disabled={filter !== 'all' || dialogOpen}>
+            disabled={filter === 'complete' || dialogOpen}>
             <CreateIcon />
           </FabButton>
         )}

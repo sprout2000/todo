@@ -1,14 +1,17 @@
 import React from 'react';
 
+/** MUI Components */
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+/** Styles */
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import pink from '@material-ui/core/colors/pink';
-import grey from '@material-ui/core/colors/grey';
+/** Colors */
+import { lightBlue, pink, grey } from '@material-ui/core/colors';
+
+/** Icons */
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -83,17 +86,17 @@ const TodoItem: React.FC<Props> = (props) => {
 
   const handleOnEdit = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
+  ) => {
     const val: string = e.target.value;
     props.onEdit(props.todo.id, val);
   };
 
-  const handleOnCheck = (): void => {
+  const handleOnCheck = () => {
     const val = !props.todo.checked;
     props.onCheck(props.todo.id, val);
   };
 
-  const handleOnRemove = (): void => {
+  const handleOnRemove = () => {
     const val = !props.todo.removed;
     props.onRemove(props.todo.id, val);
   };
@@ -104,7 +107,7 @@ const TodoItem: React.FC<Props> = (props) => {
         <TextField
           fullWidth
           value={props.todo.title}
-          onChange={(e): void => handleOnEdit(e)}
+          onChange={(e) => handleOnEdit(e)}
           disabled={props.todo.checked || props.todo.removed}
         />
       </div>

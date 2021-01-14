@@ -11,9 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 
 /** Colors */
-import indigo from '@material-ui/core/colors/indigo';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import pink from '@material-ui/core/colors/pink';
+import { indigo, lightBlue, pink } from '@material-ui/core/colors';
 
 /** Icons */
 import CreateIcon from '@material-ui/icons/CreateRounded';
@@ -21,6 +19,7 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
+import ShareIcon from '@material-ui/icons/Share';
 
 /** Styles */
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -35,6 +34,7 @@ import { Filter } from '../Filter';
 interface Props {
   drawerOpen: boolean;
   toggleDrawer: () => void;
+  onQROpen: () => void;
   handleOnSort: (filter: Filter) => void;
 }
 
@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) =>
     complete: {
       color: pink.A200,
     },
+    share: {
+      color: indigo[500],
+    },
   })
 );
 
@@ -75,11 +78,11 @@ const SideBar: React.FC<Props> = (props) => {
     <Drawer
       variant="temporary"
       open={props.drawerOpen}
-      onClose={(): void => props.toggleDrawer()}>
+      onClose={props.toggleDrawer}>
       <div
         className={classes.list}
         role="presentation"
-        onClick={(): void => props.toggleDrawer()}>
+        onClick={props.toggleDrawer}>
         <div className={classes.drawerHeader}>
           <Avatar className={classes.avatar}>
             <CreateIcon />
@@ -87,33 +90,37 @@ const SideBar: React.FC<Props> = (props) => {
           <p>TODO v{pjson.version}</p>
         </div>
         <List>
-          <ListItem button onClick={(): void => props.handleOnSort('all')}>
+          <ListItem button onClick={() => props.handleOnSort('all')}>
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('all')} />
           </ListItem>
-          <ListItem
-            button
-            onClick={(): void => props.handleOnSort('incomplete')}>
+          <ListItem button onClick={() => props.handleOnSort('incomplete')}>
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('incomplete')} />
           </ListItem>
-          <ListItem button onClick={(): void => props.handleOnSort('complete')}>
+          <ListItem button onClick={() => props.handleOnSort('complete')}>
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('complete')} />
           </ListItem>
-          <ListItem button onClick={(): void => props.handleOnSort('removed')}>
+          <ListItem button onClick={() => props.handleOnSort('removed')}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('trash')} />
           </ListItem>
           <Divider />
+          <ListItem button onClick={props.onQROpen}>
+            <ListItemIcon>
+              <ShareIcon className={classes.share} />
+            </ListItemIcon>
+            <ListItemText secondary={i18next.t('share')} />
+          </ListItem>
         </List>
       </div>
     </Drawer>
