@@ -1,6 +1,6 @@
 node_modules
-dist
+public
 yarn-*.log
-gh-pages
+.env
 .cache
 .DS_Store
