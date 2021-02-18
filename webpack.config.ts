@@ -53,8 +53,8 @@ const config: Configuration = {
           template: './src/index.html',
           favicon: './src/favicon.ico',
           filename: 'index.html',
-          inject: 'body',
           scriptLoading: 'blocking',
+          inject: 'body',
           minify: false,
         }),
         new CopyWebpackPlugin({
@@ -66,8 +66,8 @@ const config: Configuration = {
           template: './src/index.html',
           favicon: './src/favicon.ico',
           filename: 'index.html',
+          scriptLoading: 'defer',
           inject: 'body',
-          scriptLoading: 'blocking',
           minify: true,
         }),
         new CopyWebpackPlugin({
