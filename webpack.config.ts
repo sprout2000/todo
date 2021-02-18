@@ -83,6 +83,11 @@ const config: Configuration = {
   optimization: {
     minimizer: [new TerserWebpackPlugin(), new CssMinimizeWebpackPlugin()],
   },
+  cache: {
+    type: 'filesystem',
+    cacheDirectory: path.resolve(__dirname, '.cache'),
+  },
+  stats: 'errors-only',
   performance: {
     hints: false,
   },
