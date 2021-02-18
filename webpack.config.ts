@@ -81,6 +81,7 @@ const config: Configuration = {
         }),
       ],
   optimization: {
+    minimize: true,
     minimizer: [new TerserWebpackPlugin(), new CssMinimizeWebpackPlugin()],
   },
   cache: {
