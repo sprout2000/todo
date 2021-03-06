@@ -42,7 +42,9 @@ const ToolBar: React.FC<Props> = (props) => {
           aria-label="menu">
           <MenuIcon />
         </IconButton>
-        <Typography className={classes.title}>{props.title}</Typography>
+        <Typography data-testid="title" className={classes.title}>
+          {props.title}
+        </Typography>
       </Toolbar>
     </AppBar>
   );
