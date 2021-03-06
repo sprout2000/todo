@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import 'typeface-roboto';
 import App from './Components/App';
 
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
