@@ -8,7 +8,6 @@ import CreateIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
 
 /** Styles */
-import 'typeface-roboto';
 import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -18,7 +17,6 @@ import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
-import QR from './QR';
 
 /** Resources */
 import en from '../locales/en.json';
@@ -59,7 +57,6 @@ const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [qrOpen, setQrOpen] = useState(false);
 
   useEffect(() => {
     const locale =
@@ -83,7 +80,7 @@ const App: React.FC = () => {
       .getItem('todo-20200101')
       .then((values) => {
         if (!values || !Array.isArray(values)) {
-          setTodos([]);
+          return;
         } else {
           const newTodos: Todo[] = [];
           for (const val of values) {
@@ -177,9 +174,6 @@ const App: React.FC = () => {
     setFilter(filter);
   };
 
-  const onQROpen = () => setQrOpen(true);
-  const onQRClose = () => setQrOpen(false);
-
   const setTitle = () => {
     if (filter === 'all') {
       return i18next.t('all');
@@ -222,13 +216,11 @@ const App: React.FC = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <QR open={qrOpen} onClose={onQRClose} />
       <ToolBar title={setTitle()} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
-        onQROpen={onQROpen}
       />
       <FormDialog
         dialogOpen={dialogOpen}
