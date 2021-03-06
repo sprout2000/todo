@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import localforage from 'localforage';
 import i18next from 'i18next';
 
@@ -174,7 +174,7 @@ const App: React.FC = () => {
     setFilter(filter);
   };
 
-  const setTitle = () => {
+  const setTitle = useCallback(() => {
     if (filter === 'all') {
       return i18next.t('all');
     } else if (filter === 'complete') {
@@ -184,7 +184,7 @@ const App: React.FC = () => {
     } else {
       return i18next.t('trash');
     }
-  };
+  }, [filter]);
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'complete') {
@@ -212,6 +212,10 @@ const App: React.FC = () => {
   });
 
   const removed = todos.filter((todo) => todo.removed).length !== 0;
+
+  useEffect(() => {
+    setTitle();
+  }, [setTitle]);
 
   return (
     <React.Fragment>

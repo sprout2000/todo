@@ -43,56 +43,36 @@ const config: Configuration = {
       },
       {
         test: /\.(bmp|gif|png|jpe?g|svg|ttf|eot|woff?2?)$/,
-        type: 'asset/resource',
+        type: isDev ? 'asset/inline' : 'asset/resource',
       },
     ],
   },
-  plugins: isDev
-    ? [
-        new HtmlWebpackPlugin({
-          template: './src/index.html',
-          favicon: './src/favicon.ico',
-          filename: 'index.html',
-          scriptLoading: 'blocking',
-          inject: 'body',
-          minify: false,
-        }),
-        new CopyWebpackPlugin({
-          patterns: [{ from: 'assets', to: '.' }],
-        }),
-      ]
-    : [
-        new HtmlWebpackPlugin({
-          template: './src/index.html',
-          favicon: './src/favicon.ico',
-          filename: 'index.html',
-          scriptLoading: 'defer',
-          inject: 'body',
-          minify: true,
-        }),
-        new CopyWebpackPlugin({
-          patterns: [{ from: 'assets', to: '.' }],
-        }),
-        new MiniCssExtractPlugin(),
-        new WorkboxWebpackPlugin.GenerateSW({
-          swDest: 'service-worker.js',
-          skipWaiting: true,
-          clientsClaim: true,
-        }),
-      ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      favicon: './src/favicon.ico',
+      filename: 'index.html',
+      minify: !isDev,
+      inject: 'body',
+      scriptLoading: 'defer',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'assets', to: '.' }],
+    }),
+    new MiniCssExtractPlugin(),
+    new WorkboxWebpackPlugin.GenerateSW({
+      swDest: 'service-worker.js',
+      skipWaiting: true,
+      clientsClaim: true,
+    }),
+  ],
   optimization: {
-    minimize: true,
+    minimize: !isDev,
     minimizer: [new TerserWebpackPlugin(), new CssMinimizeWebpackPlugin()],
   },
-  cache: {
-    type: 'filesystem',
-    cacheDirectory: path.resolve(__dirname, '.cache'),
-  },
   stats: 'errors-only',
-  performance: {
-    hints: false,
-  },
-  devtool: isDev ? 'inline-source-map' : false,
+  performance: { hints: false },
+  devtool: isDev ? 'inline-source-map' : undefined,
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     port: 8888,
