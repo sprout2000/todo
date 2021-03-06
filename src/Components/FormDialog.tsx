@@ -1,5 +1,4 @@
 import React from 'react';
-import i18next from 'i18next';
 
 /** MUI Components */
 import Button from '@material-ui/core/Button';
@@ -43,14 +42,14 @@ const FormDialog: React.FC<Props> = (props) => {
         }}>
         <TextField
           className={classes.input}
-          label={i18next.t('whattodo')}
+          label="タスクを入力..."
           onChange={(e) => props.handleOnChange(e)}
           value={props.text}
           autoFocus
         />
         <DialogActions>
           <Button color="primary" onClick={props.handleOnSubmit}>
-            {i18next.t('add')}
+            追加
           </Button>
         </DialogActions>
       </form>

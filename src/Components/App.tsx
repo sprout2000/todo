@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import localforage from 'localforage';
-import i18next from 'i18next';
 
 /** Fab and Icons */
 import Fab from '@material-ui/core/Fab';
@@ -17,10 +16,6 @@ import SideBar from './SideBar';
 import FormDialog from './FormDialog';
 import AlertDialog from './AlertDialog';
 import TodoItem from './TodoItem';
-
-/** Resources */
-import en from '../locales/en.json';
-import ja from '../locales/ja.json';
 
 /** Types for Todo & Filter */
 import { Todo } from '../Todo';
@@ -59,23 +54,6 @@ const App: React.FC = () => {
   const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
-    const locale =
-      (window.navigator.languages && window.navigator.languages[0]) ||
-      window.navigator.language;
-
-    i18next.init({
-      lng: locale,
-      fallbackLng: 'en',
-      resources: {
-        en: {
-          translation: en,
-        },
-        ja: {
-          translation: ja,
-        },
-      },
-    });
-
     localforage
       .getItem('todo-20200101')
       .then((values) => {
@@ -176,13 +154,13 @@ const App: React.FC = () => {
 
   const setTitle = useCallback(() => {
     if (filter === 'all') {
-      return i18next.t('all');
+      return 'すべてのタスク';
     } else if (filter === 'complete') {
-      return i18next.t('complete');
+      return '完了したタスク';
     } else if (filter === 'incomplete') {
-      return i18next.t('incomplete');
+      return 'マイタスク';
     } else {
-      return i18next.t('trash');
+      return 'ごみ箱';
     }
   }, [filter]);
 

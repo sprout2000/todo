@@ -1,5 +1,4 @@
 import React from 'react';
-import i18next from 'i18next';
 
 /** MUI Components */
 import Button from '@material-ui/core/Button';
@@ -35,14 +34,14 @@ const AlertDialog: React.FC<Props> = (props) => {
       className={classes.dialog}
       open={props.alertOpen}
       onClose={props.toggleAlert}>
-      <DialogTitle>{i18next.t('alert')}</DialogTitle>
+      <DialogTitle>アラート</DialogTitle>
       <DialogContent>
-        <DialogContentText>{i18next.t('sure')}</DialogContentText>
-        <DialogContentText>{i18next.t('cannot')}</DialogContentText>
+        <DialogContentText>本当にごみ箱を完全に空にしますか?</DialogContentText>
+        <DialogContentText>この操作は取り消しできません。</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.toggleAlert} color="primary">
-          {i18next.t('cancel')}
+          キャンセル
         </Button>
         <Button
           onClick={() => {

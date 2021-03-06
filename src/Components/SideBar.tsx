@@ -1,5 +1,4 @@
 import React from 'react';
-import i18next from 'i18next';
 
 /** Drawer and List */
 import Drawer from '@material-ui/core/Drawer';
@@ -92,25 +91,25 @@ const SideBar: React.FC<Props> = (props) => {
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
-            <ListItemText secondary={i18next.t('all')} />
+            <ListItemText secondary="すべてのタスク" />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('incomplete')}>
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
-            <ListItemText secondary={i18next.t('incomplete')} />
+            <ListItemText secondary="マイタスク" />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('complete')}>
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
-            <ListItemText secondary={i18next.t('complete')} />
+            <ListItemText secondary="完了したタスク" />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('removed')}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText secondary={i18next.t('trash')} />
+            <ListItemText secondary="ごみ箱" />
           </ListItem>
           <Divider />
         </List>
