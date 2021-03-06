@@ -8,8 +8,7 @@
     "jsx": "react",
     "strict": true,
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
+    "resolveJsonModule": true
   },
   "ts-node": {
     "compilerOptions": {
