@@ -19,7 +19,6 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
-import ShareIcon from '@material-ui/icons/Share';
 
 /** Styles */
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -34,7 +33,6 @@ import { Filter } from '../Filter';
 interface Props {
   drawerOpen: boolean;
   toggleDrawer: () => void;
-  onQROpen: () => void;
   handleOnSort: (filter: Filter) => void;
 }
 
@@ -115,12 +113,6 @@ const SideBar: React.FC<Props> = (props) => {
             <ListItemText secondary={i18next.t('trash')} />
           </ListItem>
           <Divider />
-          <ListItem button onClick={props.onQROpen}>
-            <ListItemIcon>
-              <ShareIcon className={classes.share} />
-            </ListItemIcon>
-            <ListItemText secondary={i18next.t('share')} />
-          </ListItem>
         </List>
       </div>
     </Drawer>
