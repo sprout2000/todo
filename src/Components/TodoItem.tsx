@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const TodoItem: React.FC<Props> = (props) => {
+export const TodoItem: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   const handleOnEdit = (
@@ -154,5 +154,3 @@ const TodoItem: React.FC<Props> = (props) => {
     </Card>
   );
 };
-
-export default TodoItem;

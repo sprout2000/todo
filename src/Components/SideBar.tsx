@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const SideBar: React.FC<Props> = (props) => {
+export const SideBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
@@ -117,5 +117,3 @@ const SideBar: React.FC<Props> = (props) => {
     </Drawer>
   );
 };
-
-export default SideBar;

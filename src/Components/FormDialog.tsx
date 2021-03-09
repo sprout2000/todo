@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FormDialog: React.FC<Props> = (props) => {
+export const FormDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
@@ -56,5 +56,3 @@ const FormDialog: React.FC<Props> = (props) => {
     </Dialog>
   );
 };
-
-export default FormDialog;

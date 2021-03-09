@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const AlertDialog: React.FC<Props> = (props) => {
+export const AlertDialog: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
@@ -56,5 +56,3 @@ const AlertDialog: React.FC<Props> = (props) => {
     </Dialog>
   );
 };
-
-export default AlertDialog;

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const ToolBar: React.FC<Props> = (props) => {
+export const ToolBar: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
@@ -49,5 +49,3 @@ const ToolBar: React.FC<Props> = (props) => {
     </AppBar>
   );
 };
-
-export default ToolBar;

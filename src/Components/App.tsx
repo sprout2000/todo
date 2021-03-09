@@ -11,11 +11,11 @@ import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 /** Components */
-import ToolBar from './ToolBar';
-import SideBar from './SideBar';
-import FormDialog from './FormDialog';
-import AlertDialog from './AlertDialog';
-import TodoItem from './TodoItem';
+import { ToolBar } from './ToolBar';
+import { SideBar } from './SideBar';
+import { FormDialog } from './FormDialog';
+import { AlertDialog } from './AlertDialog';
+import { TodoItem } from './TodoItem';
 
 /** Types for Todo & Filter */
 import { Todo } from '../Todo';
