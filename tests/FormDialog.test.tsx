@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent, { specialChars } from '@testing-library/user-event';
 
-import { FormDialog } from '../src/Components/FormDialog';
+import { FormDialog } from '../src/components/FormDialog';
 
 describe('FormDialog compoenent', () => {
   test('render FormDialog component', async () => {

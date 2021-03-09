@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { AlertDialog } from '../src/Components/AlertDialog';
+import { AlertDialog } from '../src/components/AlertDialog';
 
 describe('AlertDialog component', () => {
   test('render AlertDialog component', () => {
