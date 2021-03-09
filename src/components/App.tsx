@@ -45,7 +45,7 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
@@ -241,5 +241,3 @@ const App: React.FC = () => {
     </React.Fragment>
   );
 };
-
-export default App;
