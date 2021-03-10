@@ -16,6 +16,7 @@ import { SideBar } from './SideBar';
 import { FormDialog } from './FormDialog';
 import { AlertDialog } from './AlertDialog';
 import { TodoItem } from './TodoItem';
+import { QR } from './QR';
 
 /** Types for Todo & Filter */
 import { Todo } from '../Todo';
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
 
   useEffect(() => {
     localforage
@@ -152,6 +154,9 @@ export const App: React.FC = () => {
     setFilter(filter);
   };
 
+  const onQROpen = () => setQrOpen(true);
+  const onQRClose = () => setQrOpen(false);
+
   const setTitle = useCallback(() => {
     if (filter === 'all') {
       return 'すべてのタスク';
@@ -198,11 +203,13 @@ export const App: React.FC = () => {
   return (
     <React.Fragment>
       <CssBaseline />
+      <QR open={qrOpen} onClose={onQRClose} />
       <ToolBar title={setTitle()} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
         handleOnSort={handleOnSort}
+        onQROpen={onQROpen}
       />
       <FormDialog
         dialogOpen={dialogOpen}
