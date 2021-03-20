@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import localforage from 'localforage';
 
 /** Fab and Icons */
@@ -49,6 +49,7 @@ const FabButton = styled(Fab)({
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
+  const [title, setTitle] = useState('すべてのタスク');
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -152,32 +153,40 @@ export const App: React.FC = () => {
 
   const handleOnSort = (filter: Filter) => {
     setFilter(filter);
+
+    switch (filter) {
+      case 'complete':
+        setTitle('完了したタスク');
+        break;
+      case 'incomplete':
+        setTitle('マイタスク');
+        break;
+      case 'removed':
+        setTitle('ごみ箱');
+        break;
+      case 'all':
+        setTitle('すべてのタスク');
+        break;
+      default:
+        setTitle('すべてのタスク');
+    }
   };
 
   const onQROpen = () => setQrOpen(true);
   const onQRClose = () => setQrOpen(false);
 
-  const setTitle = useCallback(() => {
-    if (filter === 'all') {
-      return 'すべてのタスク';
-    } else if (filter === 'complete') {
-      return '完了したタスク';
-    } else if (filter === 'incomplete') {
-      return 'マイタスク';
-    } else {
-      return 'ごみ箱';
-    }
-  }, [filter]);
-
   const filteredTodos = todos.filter((todo) => {
-    if (filter === 'complete') {
-      return todo.checked && !todo.removed;
-    } else if (filter === 'incomplete') {
-      return !todo.checked && !todo.removed;
-    } else if (filter === 'removed') {
-      return todo.removed;
-    } else {
-      return !todo.removed;
+    switch (filter) {
+      case 'complete':
+        return todo.checked && !todo.removed;
+      case 'incomplete':
+        return !todo.checked && !todo.removed;
+      case 'removed':
+        return todo.removed;
+      case 'all':
+        return !todo.removed;
+      default:
+        return todo;
     }
   });
 
@@ -196,15 +205,11 @@ export const App: React.FC = () => {
 
   const removed = todos.filter((todo) => todo.removed).length !== 0;
 
-  useEffect(() => {
-    setTitle();
-  }, [setTitle]);
-
   return (
     <React.Fragment>
       <CssBaseline />
       <QR open={qrOpen} onClose={onQRClose} />
-      <ToolBar title={setTitle()} toggleDrawer={toggleDrawer} />
+      <ToolBar title={title} toggleDrawer={toggleDrawer} />
       <SideBar
         toggleDrawer={toggleDrawer}
         drawerOpen={drawerOpen}
