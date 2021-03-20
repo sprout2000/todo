@@ -1,4 +1,5 @@
 import React from 'react';
+import i18next from 'i18next';
 
 /** Drawer and List */
 import Drawer from '@material-ui/core/Drawer';
@@ -93,32 +94,32 @@ export const SideBar: React.FC<Props> = (props) => {
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
-            <ListItemText secondary="すべてのタスク" />
+            <ListItemText secondary={i18next.t('all')} />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('incomplete')}>
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
-            <ListItemText secondary="マイタスク" />
+            <ListItemText secondary={i18next.t('incomplete')} />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('complete')}>
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
-            <ListItemText secondary="完了したタスク" />
+            <ListItemText secondary={i18next.t('complete')} />
           </ListItem>
           <ListItem button onClick={() => props.handleOnSort('removed')}>
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText secondary="ごみ箱" />
+            <ListItemText secondary={i18next.t('trash')} />
           </ListItem>
           <Divider />
           <ListItem button onClick={props.onQROpen}>
             <ListItemIcon>
               <ShareIcon className={classes.share} />
             </ListItemIcon>
-            <ListItemText secondary="このアプリを共有" />
+            <ListItemText secondary={i18next.t('share')} />
           </ListItem>
         </List>
       </div>
