@@ -28,7 +28,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import pjson from '../../package.json';
 
 /** Types for Filter */
-import { Filter } from '../Filter';
+import { Filter } from '../lib/Filter';
 
 interface Props {
   drawerOpen: boolean;

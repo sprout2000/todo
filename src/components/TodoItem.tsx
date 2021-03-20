@@ -18,8 +18,8 @@ import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 /** Types for Todo & Filter */
-import { Todo } from '../Todo';
-import { Filter } from '../Filter';
+import { Todo } from '../lib/Todo';
+import { Filter } from '../lib/Filter';
 
 interface Props {
   todo: Todo;
