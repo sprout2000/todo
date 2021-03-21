@@ -76,7 +76,7 @@ const config: Configuration = {
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     port: 8888,
-    open: true,
+    open: false,
   },
 };
 
