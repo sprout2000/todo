@@ -1,23 +1,22 @@
 import React, { useReducer, useEffect, createContext, Dispatch } from 'react';
 import localforage from 'localforage';
 
-import Fab from '@material-ui/core/Fab';
-import CreateIcon from '@material-ui/icons/CreateRounded';
-import DeleteIcon from '@material-ui/icons/DeleteRounded';
-
 import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+import { QR } from './QR';
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
+import { TodoItem } from './TodoItem';
+import { AddButton } from './AddButton';
 import { FormDialog } from './FormDialog';
 import { AlertDialog } from './AlertDialog';
-import { TodoItem } from './TodoItem';
-import { QR } from './QR';
+import { DeleteButton } from './DeleteButton';
 
 import { Todo } from '../lib/Todo';
 import { State } from '../lib/State';
 import { Action } from '../lib/Action';
+
 import { reducer } from '../lib/reducer';
 import { initialState } from '../lib/initialState';
 
@@ -37,12 +36,6 @@ const Container = styled('div')({
   margin: '0 auto',
   maxWidth: '640px',
   fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
-});
-
-const FabButton = styled(Fab)({
-  position: 'fixed',
-  right: 15,
-  bottom: 15,
 });
 
 export const AppContext = createContext(
@@ -97,8 +90,6 @@ export const App: React.FC = () => {
       return <TodoItem key={todo.id} todo={todo} />;
     });
 
-  const removed = state.todos.filter((todo) => todo.removed).length !== 0;
-
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <CssBaseline />
@@ -109,27 +100,7 @@ export const App: React.FC = () => {
       <AlertDialog />
       <Container>
         {filteredTodos}
-        {state.filter === 'removed' ? (
-          <FabButton
-            aria-label="delete-button"
-            color="secondary"
-            onClick={() => dispatch({ type: 'alert', value: !state.alertOpen })}
-            disabled={!removed || state.alertOpen}
-          >
-            <DeleteIcon />
-          </FabButton>
-        ) : (
-          <FabButton
-            aria-label="add-button"
-            color="secondary"
-            onClick={() =>
-              dispatch({ type: 'dialog', value: !state.dialogOpen })
-            }
-            disabled={state.filter === 'complete' || state.dialogOpen}
-          >
-            <CreateIcon />
-          </FabButton>
-        )}
+        {state.filter === 'removed' ? <DeleteButton /> : <AddButton />}
       </Container>
     </AppContext.Provider>
   );
