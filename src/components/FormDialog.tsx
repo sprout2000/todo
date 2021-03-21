@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import i18next from 'i18next';
 
-/** MUI Components */
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 
-/** Styles */
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+import { Action } from '../lib/Action';
 
 interface Props {
   text: string;
   dialogOpen: boolean;
-  toggleDialog: () => void;
-  handleOnChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  handleOnSubmit: () => void;
+  dispatch: Dispatch<Action>;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,25 +27,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const FormDialog: React.FC<Props> = (props) => {
+export const FormDialog: React.FC<Props> = ({ text, dialogOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
-    <Dialog fullWidth open={props.dialogOpen} onClose={props.toggleDialog}>
+    <Dialog
+      fullWidth
+      open={dialogOpen}
+      onClose={() => dispatch({ type: 'dialog', value: !dialogOpen })}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          props.handleOnSubmit();
-        }}>
+          dispatch({ type: 'submit' });
+        }}
+      >
         <TextField
           className={classes.input}
           label={i18next.t('whattodo')}
-          onChange={(e) => props.handleOnChange(e)}
-          value={props.text}
+          onChange={(e) => dispatch({ type: 'text', value: e.target.value })}
+          value={text}
           autoFocus
         />
         <DialogActions>
-          <Button color="primary" onClick={props.handleOnSubmit}>
+          <Button color="primary" onClick={() => dispatch({ type: 'submit' })}>
             {i18next.t('add')}
           </Button>
         </DialogActions>

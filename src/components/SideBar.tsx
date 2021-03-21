@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import i18next from 'i18next';
 
-/** Drawer and List */
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,10 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 
-/** Colors */
-import { indigo, lightBlue, pink } from '@material-ui/core/colors';
-
-/** Icons */
 import CreateIcon from '@material-ui/icons/CreateRounded';
 import SubjectIcon from '@material-ui/icons/Subject';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -21,21 +16,18 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleIcon from '@material-ui/icons/CheckCircleOutline';
 import ShareIcon from '@material-ui/icons/Share';
 
-/** Styles */
+import { indigo, lightBlue, pink } from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
-/** Resources */
 import pjson from '../../package.json';
 
-/** Types for Filter */
+import { Action } from '../lib/Action';
 import { Filter } from '../lib/Filter';
 
 interface Props {
   drawerOpen: boolean;
-  onQROpen: () => void;
-  toggleDrawer: () => void;
-  handleOnSort: (filter: Filter) => void;
+  dispatch: Dispatch<Action>;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -71,18 +63,20 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export const SideBar: React.FC<Props> = (props) => {
+export const SideBar: React.FC<Props> = ({ drawerOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
     <Drawer
       variant="temporary"
-      open={props.drawerOpen}
-      onClose={props.toggleDrawer}>
+      open={drawerOpen}
+      onClose={() => dispatch({ type: 'drawer', value: false })}
+    >
       <div
         className={classes.list}
         role="presentation"
-        onClick={props.toggleDrawer}>
+        onClick={() => dispatch({ type: 'drawer', value: !drawerOpen })}
+      >
         <div className={classes.drawerHeader}>
           <Avatar className={classes.avatar}>
             <CreateIcon />
@@ -90,32 +84,47 @@ export const SideBar: React.FC<Props> = (props) => {
           <p>TODO v{pjson.version}</p>
         </div>
         <List>
-          <ListItem button onClick={() => props.handleOnSort('all')}>
+          <ListItem
+            button
+            onClick={() => dispatch({ type: 'sort', value: 'all' })}
+          >
             <ListItemIcon>
               <SubjectIcon />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('all')} />
           </ListItem>
-          <ListItem button onClick={() => props.handleOnSort('incomplete')}>
+          <ListItem
+            button
+            onClick={() => dispatch({ type: 'sort', value: 'incomplete' })}
+          >
             <ListItemIcon>
               <RadioButtonUncheckedIcon className={classes.todo} />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('incomplete')} />
           </ListItem>
-          <ListItem button onClick={() => props.handleOnSort('complete')}>
+          <ListItem
+            button
+            onClick={() => dispatch({ type: 'sort', value: 'complete' })}
+          >
             <ListItemIcon>
               <CheckCircleIcon className={classes.complete} />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('complete')} />
           </ListItem>
-          <ListItem button onClick={() => props.handleOnSort('removed')}>
+          <ListItem
+            button
+            onClick={() => dispatch({ type: 'sort', value: 'removed' })}
+          >
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
             <ListItemText secondary={i18next.t('trash')} />
           </ListItem>
           <Divider />
-          <ListItem button onClick={props.onQROpen}>
+          <ListItem
+            button
+            onClick={() => dispatch({ type: 'qr', value: true })}
+          >
             <ListItemIcon>
               <ShareIcon className={classes.share} />
             </ListItemIcon>

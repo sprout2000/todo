@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 
-/** MUI Components */
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-/** Styles */
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
+import { Action } from '../lib/Action';
+
 interface Props {
   title: string;
-  toggleDrawer: () => void;
+  drawerOpen: boolean;
+  dispatch: Dispatch<Action>;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -28,22 +29,23 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export const ToolBar: React.FC<Props> = (props) => {
+export const ToolBar: React.FC<Props> = ({ title, drawerOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
     <AppBar position="sticky">
       <Toolbar>
         <IconButton
-          onClick={props.toggleDrawer}
+          onClick={() => dispatch({ type: 'drawer', value: !drawerOpen })}
           edge="start"
           className={classes.menuButton}
           color="inherit"
-          aria-label="menu">
+          aria-label="menu"
+        >
           <MenuIcon />
         </IconButton>
         <Typography data-testid="title" className={classes.title}>
-          {props.title}
+          {title}
         </Typography>
       </Toolbar>
     </AppBar>

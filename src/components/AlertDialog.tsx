@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import i18next from 'i18next';
 
-/** MUI Components */
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,14 +8,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-/** Styles */
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
+import { Action } from '../lib/Action';
+
 interface Props {
   alertOpen: boolean;
-  toggleAlert: () => void;
-  handleOnDelete: () => void;
+  dispatch: Dispatch<Action>;
 }
 
 const useStyles = makeStyles(() =>
@@ -27,30 +26,35 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export const AlertDialog: React.FC<Props> = (props) => {
+export const AlertDialog: React.FC<Props> = ({ alertOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
     <Dialog
       className={classes.dialog}
-      open={props.alertOpen}
-      onClose={props.toggleAlert}>
+      open={alertOpen}
+      onClose={() => dispatch({ type: 'alert', value: false })}
+    >
       <DialogTitle>{i18next.t('alert')}</DialogTitle>
       <DialogContent>
         <DialogContentText>{i18next.t('sure')}</DialogContentText>
         <DialogContentText>{i18next.t('cannot')}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.toggleAlert} color="primary">
+        <Button
+          onClick={() => dispatch({ type: 'alert', value: !alertOpen })}
+          color="primary"
+        >
           {i18next.t('cancel')}
         </Button>
         <Button
           onClick={() => {
-            props.toggleAlert();
-            props.handleOnDelete();
+            dispatch({ type: 'alert', value: false });
+            dispatch({ type: 'delete' });
           }}
           color="secondary"
-          autoFocus>
+          autoFocus
+        >
           OK
         </Button>
       </DialogActions>

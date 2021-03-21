@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 
 import { QRCode } from 'react-qrcode-logo';
 
 import createStyles from '@material-ui/core/styles/createStyles';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { Action } from '../lib/Action';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -18,17 +20,18 @@ const useStyles = makeStyles((theme) =>
 
 interface Props {
   open: boolean;
-  onClose: () => void;
+  dispatch: Dispatch<Action>;
 }
 
-export const QR: React.FC<Props> = (props) => {
+export const QR: React.FC<Props> = ({ open, dispatch }) => {
   const classes = useStyles();
 
   return (
     <Backdrop
       className={classes.backdrop}
-      open={props.open}
-      onClick={props.onClose}>
+      open={open}
+      onClick={() => dispatch({ type: 'qr', value: false })}
+    >
       <QRCode value="https://sprout2000.github.io/todo" />
     </Backdrop>
   );

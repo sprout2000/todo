@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import i18next from 'i18next';
 import localforage from 'localforage';
 
-/** Fab and Icons */
 import Fab from '@material-ui/core/Fab';
 import CreateIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
 
-/** Styles */
 import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-/** Components */
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { FormDialog } from './FormDialog';
@@ -19,9 +16,9 @@ import { AlertDialog } from './AlertDialog';
 import { TodoItem } from './TodoItem';
 import { QR } from './QR';
 
-/** Types for Todo & Filter */
 import { Todo } from '../lib/Todo';
-import { Filter } from '../lib/Filter';
+import { reducer } from '../lib/reducer';
+import { initialState } from '../lib/initialState';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const typeguardTodo = (arg: any): arg is Todo => {
@@ -48,13 +45,7 @@ const FabButton = styled(Fab)({
 });
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [text, setText] = useState('');
-  const [filter, setFilter] = useState<Filter>('all');
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [qrOpen, setQrOpen] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     localforage
@@ -67,180 +58,98 @@ export const App: React.FC = () => {
           for (const val of values) {
             if (typeguardTodo(val)) newTodos.push(val);
           }
-          setTodos(newTodos);
+          dispatch({ type: 'localforage', value: newTodos });
         }
       })
       .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
-    localforage.setItem('todo-20200101', todos).catch((err) => {
+    localforage.setItem('todo-20200101', state.todos).catch((err) => {
       console.error(err);
     });
-  }, [todos]);
-
-  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
-
-  const toggleDialog = () => {
-    setDialogOpen(!dialogOpen);
-    setText('');
-  };
-
-  const toggleAlert = () => setAlertOpen(!alertOpen);
-
-  const handleOnChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setText(e.target.value);
-
-  const handleOnSubmit = () => {
-    if (!text) {
-      toggleDialog();
-      return;
-    }
-
-    const newId = new Date().getTime();
-    const oldTodos = todos.slice();
-    setTodos([
-      {
-        id: newId,
-        title: text,
-        checked: false,
-        removed: false,
-      },
-      ...oldTodos,
-    ]);
-    toggleDialog();
-  };
-
-  const handleOnEdit = (id: number, title: string) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.title = title;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  };
-
-  const handleOnCheck = (id: number, checked: boolean) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.checked = checked;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  };
-
-  const handleOnRemove = (id: number, removed: boolean) => {
-    const newTodos = todos.filter((todo) => {
-      if (todo.id === id) {
-        todo.removed = removed;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  };
-
-  const handleOnDelete = () => {
-    const newTodos = todos.filter((todo) => !todo.removed);
-
-    setTodos(newTodos);
-  };
-
-  const handleOnSort = (filter: Filter) => {
-    setFilter(filter);
-  };
-
-  const onQROpen = () => setQrOpen(true);
-  const onQRClose = () => setQrOpen(false);
+  }, [state.todos]);
 
   const setTitle = () => {
-    if (filter === 'all') {
-      return i18next.t('all');
-    } else if (filter === 'complete') {
-      return i18next.t('complete');
-    } else if (filter === 'incomplete') {
-      return i18next.t('incomplete');
-    } else {
-      return i18next.t('trash');
+    switch (state.filter) {
+      case 'all':
+        return i18next.t('all');
+      case 'complete':
+        return i18next.t('complete');
+      case 'incomplete':
+        return i18next.t('incomplete');
+      case 'removed':
+        return i18next.t('trash');
+      default:
+        return i18next.t('all');
     }
   };
 
-  const filteredTodos = todos.filter((todo) => {
-    switch (filter) {
-      case 'complete':
-        return todo.checked && !todo.removed;
-      case 'incomplete':
-        return !todo.checked && !todo.removed;
-      case 'removed':
-        return todo.removed;
-      case 'all':
-        return !todo.removed;
-      default:
-        return todo;
-    }
-  });
+  const filteredTodos = state.todos
+    .filter((todo) => {
+      switch (state.filter) {
+        case 'complete':
+          return todo.checked && !todo.removed;
+        case 'incomplete':
+          return !todo.checked && !todo.removed;
+        case 'removed':
+          return todo.removed;
+        case 'all':
+          return !todo.removed;
+        default:
+          return todo;
+      }
+    })
+    .map((todo) => {
+      return (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          todos={state.todos}
+          filter={state.filter}
+          dispatch={dispatch}
+        />
+      );
+    });
 
-  const todoItems = filteredTodos.map((todo) => {
-    return (
-      <TodoItem
-        key={todo.id}
-        todo={todo}
-        filter={filter}
-        onEdit={handleOnEdit}
-        onCheck={handleOnCheck}
-        onRemove={handleOnRemove}
-      />
-    );
-  });
-
-  const removed = todos.filter((todo) => todo.removed).length !== 0;
+  const removed = state.todos.filter((todo) => todo.removed).length !== 0;
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <QR open={qrOpen} onClose={onQRClose} />
-      <ToolBar title={setTitle()} toggleDrawer={toggleDrawer} />
-      <SideBar
-        toggleDrawer={toggleDrawer}
-        drawerOpen={drawerOpen}
-        handleOnSort={handleOnSort}
-        onQROpen={onQROpen}
+      <QR open={state.qrOpen} dispatch={dispatch} />
+      <ToolBar
+        title={setTitle()}
+        drawerOpen={state.drawerOpen}
+        dispatch={dispatch}
       />
+      <SideBar drawerOpen={state.drawerOpen} dispatch={dispatch} />
       <FormDialog
-        dialogOpen={dialogOpen}
-        text={text}
-        toggleDialog={toggleDialog}
-        handleOnChange={(
-          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        ): void => handleOnChange(e)}
-        handleOnSubmit={handleOnSubmit}
+        text={state.text}
+        dialogOpen={state.dialogOpen}
+        dispatch={dispatch}
       />
-      <AlertDialog
-        alertOpen={alertOpen}
-        toggleAlert={toggleAlert}
-        handleOnDelete={handleOnDelete}
-      />
+      <AlertDialog alertOpen={state.alertOpen} dispatch={dispatch} />
       <Container>
-        {todoItems}
-        {filter === 'removed' ? (
+        {filteredTodos}
+        {state.filter === 'removed' ? (
           <FabButton
             aria-label="delete-button"
             color="secondary"
-            onClick={toggleAlert}
-            disabled={!removed || alertOpen}>
+            onClick={() => dispatch({ type: 'alert', value: !state.alertOpen })}
+            disabled={!removed || state.alertOpen}
+          >
             <DeleteIcon />
           </FabButton>
         ) : (
           <FabButton
             aria-label="add-button"
             color="secondary"
-            onClick={toggleDialog}
-            disabled={filter === 'complete' || dialogOpen}>
+            onClick={() =>
+              dispatch({ type: 'dialog', value: !state.dialogOpen })
+            }
+            disabled={state.filter === 'complete' || state.dialogOpen}
+          >
             <CreateIcon />
           </FabButton>
         )}
