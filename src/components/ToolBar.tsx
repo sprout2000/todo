@@ -2,10 +2,10 @@ import React, { useContext, memo } from 'react';
 import i18next from 'i18next';
 
 import AppBar from '@material-ui/core/AppBar';
+import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';

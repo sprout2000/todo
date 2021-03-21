@@ -4,16 +4,16 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { lightBlue, pink, grey } from '@material-ui/core/colors';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
-import { AppContext } from './App';
 import { Todo } from '../lib/Todo';
+import { AppContext } from './App';
 
 interface Props {
   todo: Todo;

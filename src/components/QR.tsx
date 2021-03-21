@@ -3,8 +3,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 
 import { QRCode } from 'react-qrcode-logo';
 
-import createStyles from '@material-ui/core/styles/createStyles';
 import { makeStyles } from '@material-ui/core/styles';
+import createStyles from '@material-ui/core/styles/createStyles';
 
 import { AppContext } from './App';
 

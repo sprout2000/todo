@@ -2,8 +2,8 @@ import React, { useContext, memo } from 'react';
 import i18next from 'i18next';
 
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
