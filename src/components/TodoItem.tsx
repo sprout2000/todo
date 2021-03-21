@@ -1,4 +1,4 @@
-import React, { Dispatch, memo } from 'react';
+import React, { useContext, memo } from 'react';
 
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -12,15 +12,11 @@ import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import { AppContext } from './App';
 import { Todo } from '../lib/Todo';
-import { Filter } from '../lib/Filter';
-import { Action } from '../lib/Action';
 
 interface Props {
   todo: Todo;
-  todos: Todo[];
-  filter: Filter;
-  dispatch: Dispatch<Action>;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,88 +71,88 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const TodoItem: React.FC<Props> = memo(
-  ({ todo, todos, filter, dispatch }) => {
-    const classes = useStyles();
+export const TodoItem: React.FC<Props> = memo(({ todo }) => {
+  const classes = useStyles();
+  const { state, dispatch } = useContext(AppContext);
 
-    return (
-      <Card className={classes.card}>
-        <div className={classes.form}>
-          <TextField
-            fullWidth
-            value={todo.title}
-            onChange={(e) =>
-              dispatch({
-                type: 'edit',
-                id: todo.id,
-                value: todos,
-                val: e.target.value,
-              })
-            }
-            disabled={todo.checked || todo.removed}
-          />
-        </div>
-        <div className={classes.buttonContainer}>
-          <div>
-            <button
-              className={classes.button}
-              onClick={() =>
-                dispatch({
-                  type: 'check',
-                  id: todo.id,
-                  value: todos,
-                  checked: !todo.checked,
-                })
-              }
-              disabled={filter === 'removed'}
-            >
-              {todo.checked ? (
-                <CheckIcon
-                  style={{
-                    color: filter !== 'removed' ? pink.A200 : grey[500],
-                  }}
-                />
-              ) : (
-                <RadioButtonUncheckedIcon
-                  style={{
-                    color: filter !== 'removed' ? lightBlue[500] : grey[500],
-                  }}
-                />
-              )}
-              <Typography
-                className={classes.done}
-                style={{
-                  color:
-                    todo.checked && filter !== 'removed'
-                      ? pink.A200
-                      : grey[500],
-                }}
-              >
-                Done
-              </Typography>
-            </button>
-          </div>
+  return (
+    <Card className={classes.card}>
+      <div className={classes.form}>
+        <TextField
+          fullWidth
+          value={todo.title}
+          onChange={(e) =>
+            dispatch({
+              type: 'edit',
+              id: todo.id,
+              value: state.todos,
+              val: e.target.value,
+            })
+          }
+          disabled={todo.checked || todo.removed}
+        />
+      </div>
+      <div className={classes.buttonContainer}>
+        <div>
           <button
+            className={classes.button}
             onClick={() =>
               dispatch({
-                type: 'remove',
+                type: 'check',
                 id: todo.id,
-                value: todos,
-                removed: !todo.removed,
+                value: state.todos,
+                checked: !todo.checked,
               })
             }
-            className={classes.trash}
+            disabled={state.filter === 'removed'}
           >
-            {todo.removed ? (
-              <UndoIcon style={{ color: lightBlue[500] }} />
+            {todo.checked ? (
+              <CheckIcon
+                style={{
+                  color: state.filter !== 'removed' ? pink.A200 : grey[500],
+                }}
+              />
             ) : (
-              <DeleteIcon style={{ color: grey[500] }} />
+              <RadioButtonUncheckedIcon
+                style={{
+                  color:
+                    state.filter !== 'removed' ? lightBlue[500] : grey[500],
+                }}
+              />
             )}
+            <Typography
+              className={classes.done}
+              style={{
+                color:
+                  todo.checked && state.filter !== 'removed'
+                    ? pink.A200
+                    : grey[500],
+              }}
+            >
+              Done
+            </Typography>
           </button>
         </div>
-      </Card>
-    );
-  }
-);
+        <button
+          onClick={() =>
+            dispatch({
+              type: 'remove',
+              id: todo.id,
+              value: state.todos,
+              removed: !todo.removed,
+            })
+          }
+          className={classes.trash}
+        >
+          {todo.removed ? (
+            <UndoIcon style={{ color: lightBlue[500] }} />
+          ) : (
+            <DeleteIcon style={{ color: grey[500] }} />
+          )}
+        </button>
+      </div>
+    </Card>
+  );
+});
 
 TodoItem.displayName = 'TodoItem';

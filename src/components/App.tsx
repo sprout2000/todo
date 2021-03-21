@@ -1,5 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
-import i18next from 'i18next';
+import React, { useReducer, useEffect, createContext, Dispatch } from 'react';
 import localforage from 'localforage';
 
 import Fab from '@material-ui/core/Fab';
@@ -17,6 +16,8 @@ import { TodoItem } from './TodoItem';
 import { QR } from './QR';
 
 import { Todo } from '../lib/Todo';
+import { State } from '../lib/State';
+import { Action } from '../lib/Action';
 import { reducer } from '../lib/reducer';
 import { initialState } from '../lib/initialState';
 
@@ -44,6 +45,13 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
+export const AppContext = createContext(
+  {} as {
+    state: State;
+    dispatch: Dispatch<Action>;
+  }
+);
+
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -70,21 +78,6 @@ export const App: React.FC = () => {
     });
   }, [state.todos]);
 
-  const setTitle = () => {
-    switch (state.filter) {
-      case 'all':
-        return i18next.t('all');
-      case 'complete':
-        return i18next.t('complete');
-      case 'incomplete':
-        return i18next.t('incomplete');
-      case 'removed':
-        return i18next.t('trash');
-      default:
-        return i18next.t('all');
-    }
-  };
-
   const filteredTodos = state.todos
     .filter((todo) => {
       switch (state.filter) {
@@ -101,35 +94,19 @@ export const App: React.FC = () => {
       }
     })
     .map((todo) => {
-      return (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          todos={state.todos}
-          filter={state.filter}
-          dispatch={dispatch}
-        />
-      );
+      return <TodoItem key={todo.id} todo={todo} />;
     });
 
   const removed = state.todos.filter((todo) => todo.removed).length !== 0;
 
   return (
-    <React.Fragment>
+    <AppContext.Provider value={{ state, dispatch }}>
       <CssBaseline />
-      <QR open={state.qrOpen} dispatch={dispatch} />
-      <ToolBar
-        title={setTitle()}
-        drawerOpen={state.drawerOpen}
-        dispatch={dispatch}
-      />
-      <SideBar drawerOpen={state.drawerOpen} dispatch={dispatch} />
-      <FormDialog
-        text={state.text}
-        dialogOpen={state.dialogOpen}
-        dispatch={dispatch}
-      />
-      <AlertDialog alertOpen={state.alertOpen} dispatch={dispatch} />
+      <QR />
+      <ToolBar />
+      <SideBar />
+      <FormDialog />
+      <AlertDialog />
       <Container>
         {filteredTodos}
         {state.filter === 'removed' ? (
@@ -154,6 +131,6 @@ export const App: React.FC = () => {
           </FabButton>
         )}
       </Container>
-    </React.Fragment>
+    </AppContext.Provider>
   );
 };

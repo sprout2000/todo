@@ -1,4 +1,5 @@
-import React, { Dispatch, memo } from 'react';
+import React, { useContext, memo } from 'react';
+import i18next from 'i18next';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,13 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
-import { Action } from '../lib/Action';
-
-interface Props {
-  title: string;
-  drawerOpen: boolean;
-  dispatch: Dispatch<Action>;
-}
+import { AppContext } from './App';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,29 +24,43 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export const ToolBar: React.FC<Props> = memo(
-  ({ title, drawerOpen, dispatch }) => {
-    const classes = useStyles();
+export const ToolBar: React.FC = memo(() => {
+  const classes = useStyles();
+  const { state, dispatch } = useContext(AppContext);
 
-    return (
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton
-            onClick={() => dispatch({ type: 'drawer', value: !drawerOpen })}
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography data-testid="title" className={classes.title}>
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    );
-  }
-);
+  const setTitle = () => {
+    switch (state.filter) {
+      case 'all':
+        return i18next.t('all');
+      case 'complete':
+        return i18next.t('complete');
+      case 'incomplete':
+        return i18next.t('incomplete');
+      case 'removed':
+        return i18next.t('trash');
+      default:
+        return i18next.t('all');
+    }
+  };
+
+  return (
+    <AppBar position="sticky">
+      <Toolbar>
+        <IconButton
+          onClick={() => dispatch({ type: 'drawer', value: !state.drawerOpen })}
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography data-testid="title" className={classes.title}>
+          {setTitle()}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
+});
 
 ToolBar.displayName = 'ToolBar';

@@ -1,4 +1,4 @@
-import React, { Dispatch, memo } from 'react';
+import React, { useContext, memo } from 'react';
 import i18next from 'i18next';
 
 import Button from '@material-ui/core/Button';
@@ -11,12 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
-import { Action } from '../lib/Action';
-
-interface Props {
-  alertOpen: boolean;
-  dispatch: Dispatch<Action>;
-}
+import { AppContext } from './App';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,13 +21,14 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export const AlertDialog: React.FC<Props> = memo(({ alertOpen, dispatch }) => {
+export const AlertDialog: React.FC = memo(() => {
   const classes = useStyles();
+  const { state, dispatch } = useContext(AppContext);
 
   return (
     <Dialog
       className={classes.dialog}
-      open={alertOpen}
+      open={state.alertOpen}
       onClose={() => dispatch({ type: 'alert', value: false })}
     >
       <DialogTitle>{i18next.t('alert')}</DialogTitle>
@@ -42,7 +38,7 @@ export const AlertDialog: React.FC<Props> = memo(({ alertOpen, dispatch }) => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => dispatch({ type: 'alert', value: !alertOpen })}
+          onClick={() => dispatch({ type: 'alert', value: !state.alertOpen })}
           color="primary"
         >
           {i18next.t('cancel')}

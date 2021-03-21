@@ -1,4 +1,4 @@
-import React, { Dispatch, memo } from 'react';
+import React, { useContext, memo } from 'react';
 import i18next from 'i18next';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -22,12 +22,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 import pjson from '../../package.json';
 
-import { Action } from '../lib/Action';
-
-interface Props {
-  drawerOpen: boolean;
-  dispatch: Dispatch<Action>;
-}
+import { AppContext } from './App';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -62,19 +57,20 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export const SideBar: React.FC<Props> = memo(({ drawerOpen, dispatch }) => {
+export const SideBar: React.FC = memo(() => {
   const classes = useStyles();
+  const { state, dispatch } = useContext(AppContext);
 
   return (
     <Drawer
       variant="temporary"
-      open={drawerOpen}
+      open={state.drawerOpen}
       onClose={() => dispatch({ type: 'drawer', value: false })}
     >
       <div
         className={classes.list}
         role="presentation"
-        onClick={() => dispatch({ type: 'drawer', value: !drawerOpen })}
+        onClick={() => dispatch({ type: 'drawer', value: !state.drawerOpen })}
       >
         <div className={classes.drawerHeader}>
           <Avatar className={classes.avatar}>
