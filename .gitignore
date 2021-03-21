@@ -1,5 +1,6 @@
 node_modules
 public
+coverage
 yarn-*.log
 .env
 .cache
