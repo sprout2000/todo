@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, memo } from 'react';
 import i18next from 'i18next';
 
 import Button from '@material-ui/core/Button';
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export const AlertDialog: React.FC<Props> = ({ alertOpen, dispatch }) => {
+export const AlertDialog: React.FC<Props> = memo(({ alertOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
@@ -60,4 +60,6 @@ export const AlertDialog: React.FC<Props> = ({ alertOpen, dispatch }) => {
       </DialogActions>
     </Dialog>
   );
-};
+});
+
+AlertDialog.displayName = 'AlertDialog';

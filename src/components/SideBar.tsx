@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, memo } from 'react';
 import i18next from 'i18next';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -23,7 +23,6 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import pjson from '../../package.json';
 
 import { Action } from '../lib/Action';
-import { Filter } from '../lib/Filter';
 
 interface Props {
   drawerOpen: boolean;
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export const SideBar: React.FC<Props> = ({ drawerOpen, dispatch }) => {
+export const SideBar: React.FC<Props> = memo(({ drawerOpen, dispatch }) => {
   const classes = useStyles();
 
   return (
@@ -134,4 +133,6 @@ export const SideBar: React.FC<Props> = ({ drawerOpen, dispatch }) => {
       </div>
     </Drawer>
   );
-};
+});
+
+SideBar.displayName = 'SideBar';

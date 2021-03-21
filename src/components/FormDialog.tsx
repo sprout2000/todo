@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, memo } from 'react';
 import i18next from 'i18next';
 
 import Button from '@material-ui/core/Button';
@@ -27,34 +27,41 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const FormDialog: React.FC<Props> = ({ text, dialogOpen, dispatch }) => {
-  const classes = useStyles();
+export const FormDialog: React.FC<Props> = memo(
+  ({ text, dialogOpen, dispatch }) => {
+    const classes = useStyles();
 
-  return (
-    <Dialog
-      fullWidth
-      open={dialogOpen}
-      onClose={() => dispatch({ type: 'dialog', value: !dialogOpen })}
-    >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          dispatch({ type: 'submit' });
-        }}
+    return (
+      <Dialog
+        fullWidth
+        open={dialogOpen}
+        onClose={() => dispatch({ type: 'dialog', value: !dialogOpen })}
       >
-        <TextField
-          className={classes.input}
-          label={i18next.t('whattodo')}
-          onChange={(e) => dispatch({ type: 'text', value: e.target.value })}
-          value={text}
-          autoFocus
-        />
-        <DialogActions>
-          <Button color="primary" onClick={() => dispatch({ type: 'submit' })}>
-            {i18next.t('add')}
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
-  );
-};
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            dispatch({ type: 'submit' });
+          }}
+        >
+          <TextField
+            className={classes.input}
+            label={i18next.t('whattodo')}
+            onChange={(e) => dispatch({ type: 'text', value: e.target.value })}
+            value={text}
+            autoFocus
+          />
+          <DialogActions>
+            <Button
+              color="primary"
+              onClick={() => dispatch({ type: 'submit' })}
+            >
+              {i18next.t('add')}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    );
+  }
+);
+
+FormDialog.displayName = 'FormDialog';

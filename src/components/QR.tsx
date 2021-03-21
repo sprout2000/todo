@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, memo } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 
 import { QRCode } from 'react-qrcode-logo';
@@ -23,7 +23,7 @@ interface Props {
   dispatch: Dispatch<Action>;
 }
 
-export const QR: React.FC<Props> = ({ open, dispatch }) => {
+export const QR: React.FC<Props> = memo(({ open, dispatch }) => {
   const classes = useStyles();
 
   return (
@@ -35,4 +35,6 @@ export const QR: React.FC<Props> = ({ open, dispatch }) => {
       <QRCode value="https://sprout2000.github.io/todo" />
     </Backdrop>
   );
-};
+});
+
+QR.displayName = 'QR';
