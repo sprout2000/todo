@@ -71,7 +71,7 @@ export const App: React.FC = () => {
     });
   }, [state.todos]);
 
-  const filteredTodos = state.todos
+  const RenderTodos: JSX.Element[] = state.todos
     .filter((todo) => {
       switch (state.filter) {
         case 'complete':
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
       <FormDialog />
       <AlertDialog />
       <Container>
-        {filteredTodos}
+        {RenderTodos}
         {state.filter === 'removed' ? <DeleteButton /> : <AddButton />}
       </Container>
     </AppContext.Provider>
