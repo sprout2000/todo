@@ -20,7 +20,7 @@ const config: Configuration = {
     path: path.resolve(__dirname, 'public'),
     publicPath: '',
     filename: 'app.js',
-    assetModuleFilename: 'images/[name][ext]',
+    assetModuleFilename: 'fonts/[name][ext]',
   },
   module: {
     rules: [
@@ -42,7 +42,11 @@ const config: Configuration = {
         ],
       },
       {
-        test: /\.(bmp|gif|png|jpe?g|svg|ttf|eot|woff?2?)$/,
+        test: /\.(ico|gif|jpe?g|png|svg)$/,
+        type: 'asset/inline',
+      },
+      {
+        test: /\.(ttf|eot|woff?2?)$/,
         type: isDev ? 'asset/inline' : 'asset/resource',
       },
     ],
@@ -64,11 +68,15 @@ const config: Configuration = {
       swDest: 'service-worker.js',
       skipWaiting: true,
       clientsClaim: true,
+      inlineWorkboxRuntime: true,
     }),
   ],
   optimization: {
     minimize: !isDev,
-    minimizer: [new TerserWebpackPlugin(), new CssMinimizeWebpackPlugin()],
+    minimizer: [
+      new CssMinimizeWebpackPlugin(),
+      new TerserWebpackPlugin({ extractComments: false }),
+    ],
   },
   stats: 'errors-only',
   performance: { hints: false },
