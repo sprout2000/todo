@@ -53,7 +53,7 @@ export const App: React.FC = () => {
       .getItem('todo-20200101')
       .then((values) => {
         if (!values || !Array.isArray(values)) {
-          return;
+          return initialState;
         } else {
           const newTodos: Todo[] = [];
           for (const val of values) {
