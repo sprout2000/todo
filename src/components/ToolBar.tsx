@@ -28,21 +28,6 @@ export const ToolBar: React.FC = memo(() => {
   const classes = useStyles();
   const { state, dispatch } = useContext(AppContext);
 
-  const setTitle = () => {
-    switch (state.filter) {
-      case 'all':
-        return i18next.t('all');
-      case 'complete':
-        return i18next.t('complete');
-      case 'incomplete':
-        return i18next.t('incomplete');
-      case 'removed':
-        return i18next.t('trash');
-      default:
-        return i18next.t('all');
-    }
-  };
-
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -56,7 +41,7 @@ export const ToolBar: React.FC = memo(() => {
           <MenuIcon />
         </IconButton>
         <Typography data-testid="title" className={classes.title}>
-          {setTitle()}
+          {i18next.t(state.filter)}
         </Typography>
       </Toolbar>
     </AppBar>

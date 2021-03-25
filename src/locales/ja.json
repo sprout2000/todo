@@ -2,7 +2,7 @@
   "all": "すべてのタスク",
   "complete": "完了したタスク",
   "incomplete": "マイタスク",
-  "trash": "ごみ箱",
+  "removed": "ごみ箱",
   "whattodo": "タスクを入力",
   "add": "追加",
   "alert": "アラート",

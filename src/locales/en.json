@@ -2,7 +2,7 @@
   "all": "All Tasks",
   "complete": "Completed Tasks",
   "incomplete": "Incomplete Tasks",
-  "trash": "Trash",
+  "removed": "Trash",
   "whattodo": "What to do?",
   "add": "ADD",
   "alert": "Alert",

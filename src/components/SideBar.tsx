@@ -113,7 +113,7 @@ export const SideBar: React.FC = memo(() => {
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText secondary={i18next.t('trash')} />
+            <ListItemText secondary={i18next.t('removed')} />
           </ListItem>
           <Divider />
           <ListItem
