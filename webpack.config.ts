@@ -38,10 +38,6 @@ const config: Configuration = {
         ],
       },
       {
-        test: /\.(ico|gif|jpe?g|png|svg)$/,
-        type: 'asset/inline',
-      },
-      {
         test: /\.(ttf|eot|woff?2?)$/,
         type: isDev ? 'asset/inline' : 'asset/resource',
       },
