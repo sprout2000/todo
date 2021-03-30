@@ -1,10 +1,8 @@
 import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import TerserWebpackPlugin from 'terser-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
-import CssMinimizeWebpackPlugin from 'css-minimizer-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import path from 'path';
 
@@ -35,9 +33,7 @@ const config: Configuration = {
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
-            options: {
-              sourceMap: isDev,
-            },
+            options: { sourceMap: isDev },
           },
         ],
       },
@@ -71,13 +67,6 @@ const config: Configuration = {
       inlineWorkboxRuntime: true,
     }),
   ],
-  optimization: {
-    minimize: !isDev,
-    minimizer: [
-      new CssMinimizeWebpackPlugin(),
-      new TerserWebpackPlugin({ extractComments: false }),
-    ],
-  },
   stats: 'errors-only',
   performance: { hints: false },
   devtool: isDev ? 'inline-source-map' : undefined,
