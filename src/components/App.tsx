@@ -5,13 +5,12 @@ import styled from '@material-ui/core/styles/styled';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { QR } from './QR';
+import { Buttons } from './Buttons';
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { TodoList } from './TodoList';
-import { AddButton } from './AddButton';
 import { FormDialog } from './FormDialog';
 import { AlertDialog } from './AlertDialog';
-import { DeleteButton } from './DeleteButton';
 
 import { Todo } from '../lib/Todo';
 import { State } from '../lib/State';
@@ -81,7 +80,7 @@ export const App: React.FC = () => {
       <AlertDialog />
       <Container>
         <TodoList />
-        {state.filter === 'removed' ? <DeleteButton /> : <AddButton />}
+        <Buttons />
       </Container>
     </AppContext.Provider>
   );
