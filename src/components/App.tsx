@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { QR } from './QR';
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
-import { TodoItem } from './TodoItem';
+import { TodoList } from './TodoList';
 import { AddButton } from './AddButton';
 import { FormDialog } from './FormDialog';
 import { AlertDialog } from './AlertDialog';
@@ -71,25 +71,6 @@ export const App: React.FC = () => {
     });
   }, [state.todos]);
 
-  const RenderTodos: JSX.Element[] = state.todos
-    .filter((todo) => {
-      switch (state.filter) {
-        case 'complete':
-          return todo.checked && !todo.removed;
-        case 'incomplete':
-          return !todo.checked && !todo.removed;
-        case 'removed':
-          return todo.removed;
-        case 'all':
-          return !todo.removed;
-        default:
-          return todo;
-      }
-    })
-    .map((todo) => {
-      return <TodoItem key={todo.id} todo={todo} />;
-    });
-
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <CssBaseline />
@@ -99,7 +80,7 @@ export const App: React.FC = () => {
       <FormDialog />
       <AlertDialog />
       <Container>
-        {RenderTodos}
+        <TodoList />
         {state.filter === 'removed' ? <DeleteButton /> : <AddButton />}
       </Container>
     </AppContext.Provider>
