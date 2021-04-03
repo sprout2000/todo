@@ -55,9 +55,9 @@ export const App: React.FC = () => {
           return initialState;
         } else {
           const newTodos: Todo[] = [];
-          for (const val of values) {
-            if (typeguardTodo(val)) newTodos.push(val);
-          }
+          values.map((value) => {
+            if (typeguardTodo(value)) newTodos.push(value);
+          });
           dispatch({ type: 'localforage', value: newTodos });
         }
       })
