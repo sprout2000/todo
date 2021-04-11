@@ -15,7 +15,7 @@ const config: Configuration = {
   },
   entry: './src/main.tsx',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'docs'),
     publicPath: '',
     filename: 'app.js',
     assetModuleFilename: 'fonts/[name][ext]',
@@ -67,7 +67,7 @@ const config: Configuration = {
   performance: { hints: false },
   devtool: isDev ? 'inline-source-map' : undefined,
   devServer: {
-    contentBase: path.resolve(__dirname, 'public'),
+    contentBase: path.resolve(__dirname, 'docs'),
     port: 8888,
     open: false,
   },
