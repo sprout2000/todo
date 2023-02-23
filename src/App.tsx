@@ -1,7 +1,12 @@
 import { useState } from 'react';
 
+type Todo = {
+  value: string;
+};
+
 export const App = () => {
   const [text, setText] = useState('');
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   return (
     <div>
