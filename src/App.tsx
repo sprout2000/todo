@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 type Todo = {
   value: string;
+  readonly id: number;
 };
 
 export const App = () => {
@@ -17,6 +18,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       value: text,
+      id: new Date().getTime(),
     };
 
     setTodos((todos) => [newTodo, ...todos]);
@@ -36,7 +38,7 @@ export const App = () => {
       </form>
       <ul>
         {todos.map((todo) => {
-          return <li>{todo.value}</li>;
+          return <li key={todo.id}>{todo.value}</li>;
         })}
       </ul>
     </div>
