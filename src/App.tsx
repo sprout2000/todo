@@ -29,7 +29,7 @@ export const App = () => {
     setTodos((todos) => {
       const newTodos = todos.map((todo) => {
         if (todo.id === id) {
-          todo.value = value;
+          return { ...todo, value };
         }
         return todo;
       });
