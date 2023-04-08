@@ -9,6 +9,7 @@ import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
 import { FormDialog } from './FormDialog';
+import { AlertDialog } from './AlertDialog';
 import { ActionButton } from './ActionButton';
 
 const theme = createTheme({
@@ -32,6 +33,7 @@ export const App = () => {
   const [filter, setFilter] = useState<Filter>('all');
 
   const [qrOpen, setQrOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -46,6 +48,10 @@ export const App = () => {
   const handleToggleDialog = () => {
     setDialogOpen((dialogOpen) => !dialogOpen);
     setText('');
+  };
+
+  const handleToggleAlert = () => {
+    setAlertOpen((alertOpen) => !alertOpen);
   };
 
   const handleChange = (
@@ -116,8 +122,20 @@ export const App = () => {
         onSubmit={handleSubmit}
         onToggleDialog={handleToggleDialog}
       />
+      <AlertDialog
+        alertOpen={alertOpen}
+        onEmpty={handleEmpty}
+        onToggleAlert={handleToggleAlert}
+      />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
-      <ActionButton todos={todos} onEmpty={handleEmpty} />
+      <ActionButton
+        todos={todos}
+        filter={filter}
+        alertOpen={alertOpen}
+        dialogOpen={dialogOpen}
+        onToggleAlert={handleToggleAlert}
+        onToggleDialog={handleToggleDialog}
+      />
     </ThemeProvider>
   );
 };
