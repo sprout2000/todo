@@ -4,6 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     react(),
     VitePWA({
@@ -11,6 +12,7 @@ export default defineConfig({
         name: 'Todo App (PWA)',
         short_name: 'Todo',
         description: 'Todo プログレッシブ・ウェブアプリ',
+        id: '/todo/',
         start_url: '.',
         display: 'standalone',
         orientation: 'portrait',
