@@ -14,6 +14,8 @@ import { FormDialog } from './FormDialog';
 import { AlertDialog } from './AlertDialog';
 import { ActionButton } from './ActionButton';
 
+import { isTodos } from './lib/isTodos';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -109,7 +111,7 @@ export const App = () => {
   useEffect(() => {
     localforage
       .getItem('todo-20200101')
-      .then((values) => setTodos(values as Todo[]));
+      .then((values) => isTodos(values) && setTodos(values));
   }, []);
 
   useEffect(() => {
