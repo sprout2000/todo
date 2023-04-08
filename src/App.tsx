@@ -32,22 +32,33 @@ export const App = () => {
   const [filter, setFilter] = useState<Filter>('all');
 
   const [qrOpen, setQrOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const handleToggleDrawer = () => {
-    setDrawerOpen((drawerOpen) => !drawerOpen);
-  };
 
   const handleToggleQR = () => {
     setQrOpen((qrOpen) => !qrOpen);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleToggleDrawer = () => {
+    setDrawerOpen((drawerOpen) => !drawerOpen);
+  };
+
+  const handleToggleDialog = () => {
+    setDialogOpen((dialogOpen) => !dialogOpen);
+    setText('');
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setText(e.target.value);
   };
 
   const handleSubmit = () => {
-    if (!text) return;
+    if (!text) {
+      setDialogOpen((dialogOpen) => !dialogOpen);
+      return;
+    }
 
     const newTodo: Todo = {
       value: text,
@@ -58,6 +69,7 @@ export const App = () => {
 
     setTodos((todos) => [newTodo, ...todos]);
     setText('');
+    setDialogOpen((dialogOpen) => !dialogOpen);
   };
 
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
@@ -97,7 +109,13 @@ export const App = () => {
         onToggleDrawer={handleToggleDrawer}
       />
       <QR open={qrOpen} onClose={handleToggleQR} />
-      <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
+      <FormDialog
+        text={text}
+        dialogOpen={dialogOpen}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onToggleDialog={handleToggleDialog}
+      />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
       <ActionButton todos={todos} onEmpty={handleEmpty} />
     </ThemeProvider>
