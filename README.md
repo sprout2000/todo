@@ -1,5 +1,7 @@
 # Todo (PWA)
 
+[![GitHub CI](https://github.com/sprout2000/todo/actions/workflows/jest.yml/badge.svg)](https://github.com/sprout2000/todo/actions/workflows/jest.yml)
+![jest](./coverage/badge.svg)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/sprout2000/todo/react)
 [![GitHub license](https://img.shields.io/github/license/sprout2000/todo)](https://github.com/sprout2000/todo/blob/master/LICENSE.md)
 
@@ -11,7 +13,7 @@
 
 ```sh
 # このレポジトリをクローン
-git clone https://github.com/sprout2000/todo.git
+git clone https://github.com/sprout2000/todo.git -b jest
 
 # 依存パッケージをインストール
 cd todo
@@ -24,11 +26,6 @@ npm run dev
 ## ユニットテスト
 
 ```sh
-# jest ブランチをクローン
-git clone https://github.com/sprout2000/todo.git -b jest
-
-# 依存パッケージをインストールとテスト
-npm install
 npm test
 ```
 

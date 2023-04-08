@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const isTodo = (arg: any): arg is Todo => {
+export const isTodo = (arg: any): arg is Todo => {
   return (
     typeof arg === 'object' &&
     typeof arg.id === 'number' &&

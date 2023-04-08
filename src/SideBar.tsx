@@ -11,7 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { styled } from '@mui/material/styles';
 import { indigo, lightBlue, pink } from '@mui/material/colors';
 
-import pjson from '../package.json';
+import * as pjson from '../package.json';
 
 type Props = {
   drawerOpen: boolean;

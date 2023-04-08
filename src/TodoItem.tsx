@@ -86,6 +86,7 @@ export const TodoItem = (props: Props) => {
             <Form>
               <TextField
                 aria-label={`todo-${todo.value}`}
+                inputProps={{ 'data-testid': `todo-${todo.value}` }}
                 fullWidth
                 variant="standard"
                 value={todo.value}
@@ -101,7 +102,7 @@ export const TodoItem = (props: Props) => {
               >
                 {todo.checked ? (
                   <Icon
-                    aria-label={`todo-removed-${todo.value}`}
+                    aria-label={`todo-toggle-${todo.value}`}
                     style={{
                       color: props.filter !== 'removed' ? pink.A200 : grey[500],
                     }}
@@ -110,7 +111,7 @@ export const TodoItem = (props: Props) => {
                   </Icon>
                 ) : (
                   <Icon
-                    aria-label={`todo-uncheck-${todo.value}`}
+                    aria-label={`todo-toggle-${todo.value}`}
                     style={{
                       color:
                         props.filter !== 'removed' ? lightBlue[500] : grey[500],
