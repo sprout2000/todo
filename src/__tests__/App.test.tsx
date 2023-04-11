@@ -23,6 +23,11 @@ test('test App component', async () => {
   await userEvent.type(screen.getByTestId('todo-input'), '#0');
   await userEvent.click(screen.getByLabelText('form-add'));
 
+  // handleChange('#1') & handleSubmit('#1')
+  await userEvent.click(screen.getByLabelText('fab-add-button'));
+  await userEvent.type(screen.getByTestId('todo-input'), '#1');
+  await userEvent.click(screen.getByLabelText('form-add'));
+
   // handleTodo('edit')
   await userEvent.type(screen.getByTestId('todo-#0'), '_edit');
   // handleTodo('check')
