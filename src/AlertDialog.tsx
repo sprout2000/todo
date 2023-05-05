@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -17,7 +19,7 @@ const Alert = styled(Dialog)(() => ({
   fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
 }));
 
-export const AlertDialog = (props: Props) => (
+export const AlertDialog = memo((props: Props) => (
   <Alert open={props.alertOpen} onClose={props.onToggleAlert}>
     <DialogTitle>アラート</DialogTitle>
     <DialogContent>
@@ -45,4 +47,6 @@ export const AlertDialog = (props: Props) => (
       </Button>
     </DialogActions>
   </Alert>
-);
+));
+
+AlertDialog.displayName = 'AlertDialog';

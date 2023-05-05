@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Fab from '@mui/material/Fab';
 import Icon from '@mui/material/Icon';
 
@@ -18,7 +20,7 @@ const FabButton = styled(Fab)({
   bottom: 15,
 });
 
-export const ActionButton = (props: Props) => {
+export const ActionButton = memo((props: Props) => {
   const removed = props.todos.filter((todo) => todo.removed).length !== 0;
 
   return (
@@ -44,4 +46,6 @@ export const ActionButton = (props: Props) => {
       )}
     </>
   );
-};
+});
+
+ActionButton.displayName = 'ActionButton';

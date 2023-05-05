@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
 import Avatar from '@mui/material/Avatar';
@@ -42,7 +44,7 @@ const DrawerAvatar = styled(Avatar)(({ theme }) => ({
   height: theme.spacing(6),
 }));
 
-export const SideBar = (props: Props) => (
+export const SideBar = memo((props: Props) => (
   <Drawer
     variant="temporary"
     open={props.drawerOpen}
@@ -112,4 +114,6 @@ export const SideBar = (props: Props) => (
       </List>
     </DrawerList>
   </Drawer>
-);
+));
+
+SideBar.displayName = 'SideBar';

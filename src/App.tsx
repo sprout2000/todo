@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 import localforage from 'localforage';
 
@@ -15,6 +15,8 @@ import { AlertDialog } from './AlertDialog';
 import { ActionButton } from './ActionButton';
 
 import { isTodos } from './lib/isTodos';
+import { reducer } from './lib/reducer';
+import { initialState } from './lib/intialState';
 
 const theme = createTheme({
   palette: {
@@ -32,121 +34,91 @@ const theme = createTheme({
 });
 
 export const App = () => {
-  const [text, setText] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState<Filter>('all');
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [qrOpen, setQrOpen] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleToggleQR = useCallback(() => {
+    dispatch({ type: 'toggleQR' });
+  }, []);
 
-  const handleToggleQR = () => {
-    setQrOpen((qrOpen) => !qrOpen);
-  };
+  const handleToggleDrawer = useCallback(() => {
+    dispatch({ type: 'toggleDrawer' });
+  }, []);
 
-  const handleToggleDrawer = () => {
-    setDrawerOpen((drawerOpen) => !drawerOpen);
-  };
+  const handleToggleDialog = useCallback(() => {
+    dispatch({ type: 'toggleDialog' });
+  }, []);
 
-  const handleToggleDialog = () => {
-    setDialogOpen((dialogOpen) => !dialogOpen);
-    setText('');
-  };
+  const handleToggleAlert = useCallback(() => {
+    dispatch({ type: 'toggleAlert' });
+  }, []);
 
-  const handleToggleAlert = () => {
-    setAlertOpen((alertOpen) => !alertOpen);
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      dispatch({ type: 'handleChange', text: e.target.value });
+    },
+    []
+  );
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setText(e.target.value);
-  };
+  const handleSubmit = useCallback(() => {
+    dispatch({ type: 'handleSubmit' });
+  }, []);
 
-  const handleSubmit = () => {
-    if (!text) {
-      setDialogOpen((dialogOpen) => !dialogOpen);
-      return;
-    }
+  const handleTodo = useCallback(
+    <K extends keyof Todo, V extends Todo[K]>(id: number, key: K, value: V) => {
+      dispatch({ type: 'handleTodo', id, key, value });
+    },
+    []
+  );
 
-    const newTodo: Todo = {
-      value: text,
-      id: new Date().getTime(),
-      checked: false,
-      removed: false,
-    };
+  const handleEmpty = useCallback(() => {
+    dispatch({ type: 'handleEmpty' });
+  }, []);
 
-    setTodos((todos) => [newTodo, ...todos]);
-    setText('');
-    setDialogOpen((dialogOpen) => !dialogOpen);
-  };
-
-  const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
-    id: number,
-    key: K,
-    value: V
-  ) => {
-    setTodos((todos) => {
-      const newTodos = todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, [key]: value };
-        } else {
-          return todo;
-        }
-      });
-
-      return newTodos;
-    });
-  };
-
-  const handleEmpty = () => {
-    setTodos((todos) => todos.filter((todo) => !todo.removed));
-  };
-
-  const handleSort = (filter: Filter) => {
-    setFilter(filter);
-  };
+  const handleSort = useCallback((filter: Filter) => {
+    dispatch({ type: 'handleSort', filter });
+  }, []);
 
   useEffect(() => {
     localforage
       .getItem('todo-20200101')
-      .then((values) => isTodos(values) && setTodos(values));
+      .then(
+        (values) => isTodos(values) && dispatch({ type: 'localforage', values })
+      );
   }, []);
 
   useEffect(() => {
-    localforage.setItem('todo-20200101', todos);
-  }, [todos]);
+    localforage.setItem('todo-20200101', state.todos);
+  }, [state.todos]);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
-      <ToolBar filter={filter} onToggleDrawer={handleToggleDrawer} />
+      <ToolBar filter={state.filter} onToggleDrawer={handleToggleDrawer} />
       <SideBar
-        drawerOpen={drawerOpen}
+        drawerOpen={state.drawerOpen}
         onSort={handleSort}
         onToggleQR={handleToggleQR}
         onToggleDrawer={handleToggleDrawer}
       />
-      <QR open={qrOpen} onClose={handleToggleQR} />
+      <QR open={state.qrOpen} onClose={handleToggleQR} />
       <FormDialog
-        text={text}
-        dialogOpen={dialogOpen}
+        text={state.text}
+        dialogOpen={state.dialogOpen}
         onChange={handleChange}
         onSubmit={handleSubmit}
         onToggleDialog={handleToggleDialog}
       />
       <AlertDialog
-        alertOpen={alertOpen}
+        alertOpen={state.alertOpen}
         onEmpty={handleEmpty}
         onToggleAlert={handleToggleAlert}
       />
-      <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
+      <TodoItem todos={state.todos} filter={state.filter} onTodo={handleTodo} />
       <ActionButton
-        todos={todos}
-        filter={filter}
-        alertOpen={alertOpen}
-        dialogOpen={dialogOpen}
+        todos={state.todos}
+        filter={state.filter}
+        alertOpen={state.alertOpen}
+        dialogOpen={state.dialogOpen}
         onToggleAlert={handleToggleAlert}
         onToggleDialog={handleToggleDialog}
       />

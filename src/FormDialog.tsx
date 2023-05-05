@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
@@ -13,7 +15,7 @@ type Props = {
   onToggleDialog: () => void;
 };
 
-export const FormDialog = (props: Props) => (
+export const FormDialog = memo((props: Props) => (
   <Dialog fullWidth open={props.dialogOpen} onClose={props.onToggleDialog}>
     <form
       onSubmit={(e) => {
@@ -47,4 +49,6 @@ export const FormDialog = (props: Props) => (
       </div>
     </form>
   </Dialog>
-);
+));
+
+FormDialog.displayName = 'FormDialog';

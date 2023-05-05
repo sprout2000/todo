@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Icon from '@mui/material/Icon';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
@@ -62,7 +64,7 @@ const Trash = styled('button')(() => ({
   outline: 'none',
 }));
 
-export const TodoItem = (props: Props) => {
+export const TodoItem = memo((props: Props) => {
   const filteredTodos = props.todos.filter((todo) => {
     switch (props.filter) {
       case 'all':
@@ -157,4 +159,6 @@ export const TodoItem = (props: Props) => {
       })}
     </Container>
   );
-};
+});
+
+TodoItem.displayName = 'TodoItem';

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Box from '@mui/material/Box';
 import Icon from '@mui/material/Icon';
 import AppBar from '@mui/material/AppBar';
@@ -25,7 +27,7 @@ export const translator = (arg: Filter) => {
   }
 };
 
-export const ToolBar = (props: Props) => (
+export const ToolBar = memo((props: Props) => (
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
       <Toolbar>
@@ -43,4 +45,6 @@ export const ToolBar = (props: Props) => (
       </Toolbar>
     </AppBar>
   </Box>
-);
+));
+
+ToolBar.displayName = 'ToolBar';
