@@ -1,0 +1,14 @@
+{
+  "all": "All tasks",
+  "current": "Current tasks",
+  "finished": "Finished tasks",
+  "trash": "Trash",
+  "share": "Share this app",
+  "alert": "Alert",
+  "sure": "Do you really want to empty the trash?",
+  "undone": "This operation cannot be undone.",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "input": "Input todo...",
+  "add": "ADD"
+}

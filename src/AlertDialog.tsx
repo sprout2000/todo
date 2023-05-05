@@ -9,6 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 import { styled } from '@mui/material/styles';
 
+import i18next from 'i18next';
+
 type Props = {
   alertOpen: boolean;
   onEmpty: () => void;
@@ -21,10 +23,10 @@ const Alert = styled(Dialog)(() => ({
 
 export const AlertDialog = memo((props: Props) => (
   <Alert open={props.alertOpen} onClose={props.onToggleAlert}>
-    <DialogTitle>アラート</DialogTitle>
+    <DialogTitle>{i18next.t('alert')}</DialogTitle>
     <DialogContent>
-      <DialogContentText>本当にごみ箱を完全に空にしますか？</DialogContentText>
-      <DialogContentText>この操作は取り消しできません。</DialogContentText>
+      <DialogContentText>{i18next.t('sure')}</DialogContentText>
+      <DialogContentText>{i18next.t('undone')}</DialogContentText>
     </DialogContent>
     <DialogActions>
       <Button
@@ -32,7 +34,7 @@ export const AlertDialog = memo((props: Props) => (
         onClick={props.onToggleAlert}
         color="primary"
       >
-        キャンセル
+        {i18next.t('cancel')}
       </Button>
       <Button
         aria-label="alert-ok"
@@ -43,7 +45,7 @@ export const AlertDialog = memo((props: Props) => (
         color="secondary"
         autoFocus
       >
-        OK
+        {i18next.t('ok')}
       </Button>
     </DialogActions>
   </Alert>

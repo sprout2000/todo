@@ -7,6 +7,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import i18next from 'i18next';
+
 type Props = {
   filter: Filter;
   onToggleDrawer: () => void;
@@ -15,13 +17,13 @@ type Props = {
 export const translator = (arg: Filter) => {
   switch (arg) {
     case 'all':
-      return 'すべてのタスク';
+      return i18next.t('all');
     case 'unchecked':
-      return '現在のタスク';
+      return i18next.t('current');
     case 'checked':
-      return '完了したタスク';
+      return i18next.t('finished');
     case 'removed':
-      return 'ごみ箱';
+      return i18next.t('trash');
     default:
       return 'TODO';
   }

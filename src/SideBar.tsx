@@ -13,6 +13,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { styled } from '@mui/material/styles';
 import { indigo, lightBlue, pink } from '@mui/material/colors';
 
+import i18next from 'i18next';
 import pjson from '../package.json';
 
 type Props = {
@@ -66,7 +67,7 @@ export const SideBar = memo((props: Props) => (
             <ListItemIcon>
               <Icon>subject</Icon>
             </ListItemIcon>
-            <ListItemText secondary="すべてのタスク" />
+            <ListItemText secondary={i18next.t('all')} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -77,7 +78,7 @@ export const SideBar = memo((props: Props) => (
             <ListItemIcon>
               <Icon sx={{ color: lightBlue[500] }}>radio_button_unchecked</Icon>
             </ListItemIcon>
-            <ListItemText secondary="現在のタスク" />
+            <ListItemText secondary={i18next.t('current')} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -88,7 +89,7 @@ export const SideBar = memo((props: Props) => (
             <ListItemIcon>
               <Icon sx={{ color: pink.A200 }}>check_circle_outline</Icon>
             </ListItemIcon>
-            <ListItemText secondary="完了したタスク" />
+            <ListItemText secondary={i18next.t('finished')} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -99,7 +100,7 @@ export const SideBar = memo((props: Props) => (
             <ListItemIcon>
               <Icon>delete</Icon>
             </ListItemIcon>
-            <ListItemText secondary="ごみ箱" />
+            <ListItemText secondary={i18next.t('trash')} />
           </ListItemButton>
         </ListItem>
         <Divider />
@@ -108,7 +109,7 @@ export const SideBar = memo((props: Props) => (
             <ListItemIcon>
               <Icon>share</Icon>
             </ListItemIcon>
-            <ListItemText secondary="このアプリを共有" />
+            <ListItemText secondary={i18next.t('share')} />
           </ListItemButton>
         </ListItem>
       </List>

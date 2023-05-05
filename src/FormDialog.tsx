@@ -5,6 +5,8 @@ import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
 
+import i18next from 'i18next';
+
 type Props = {
   text: string;
   dialogOpen: boolean;
@@ -32,7 +34,7 @@ export const FormDialog = memo((props: Props) => (
             fontSize: '16px',
             fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
           }}
-          label="タスクを入力..."
+          label={i18next.t('input')}
           onChange={(e) => props.onChange(e)}
           value={props.text}
           autoFocus
@@ -43,7 +45,7 @@ export const FormDialog = memo((props: Props) => (
             color="secondary"
             onClick={props.onSubmit}
           >
-            追加
+            {i18next.t('add')}
           </Button>
         </DialogActions>
       </div>
