@@ -8,7 +8,7 @@ type Props = {
   dialogOpen: boolean;
   onSubmit: () => void;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   onToggleDialog: () => void;
 };

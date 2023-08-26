@@ -33,12 +33,12 @@ test('test App component', async () => {
   // handleTodo('check')
   await userEvent.click(screen.getByLabelText('todo-check-#0_edit'));
   expect(screen.getByLabelText('todo-toggle-#0_edit')).toHaveStyle(
-    'color: rgb(255, 64, 129)'
+    'color: rgb(255, 64, 129)',
   );
   // handleTodo('uncheck')
   await userEvent.click(screen.getByLabelText('todo-check-#0_edit'));
   expect(screen.getByLabelText('todo-toggle-#0_edit')).toHaveStyle(
-    'color: rgb(3, 169, 244)'
+    'color: rgb(3, 169, 244)',
   );
   // handleTodo('remove')
   await userEvent.click(screen.getByLabelText('todo-trash-#0_edit'));

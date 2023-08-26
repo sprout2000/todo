@@ -12,7 +12,7 @@ type Props = {
   onTodo: <T extends Todo['id'], U extends keyof Todo, V extends Todo[U]>(
     id: T,
     key: U,
-    value: V
+    value: V,
   ) => void;
 };
 

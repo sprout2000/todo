@@ -58,7 +58,7 @@ export const App = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setText(e.target.value);
   };
@@ -84,7 +84,7 @@ export const App = () => {
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
     id: number,
     key: K,
-    value: V
+    value: V,
   ) => {
     setTodos((todos) => {
       const newTodos = todos.map((todo) => {

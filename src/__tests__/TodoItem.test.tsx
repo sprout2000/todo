@@ -20,7 +20,7 @@ const filters: Filter[] = [
 test('render TodoItem component with filter', async () => {
   filters.map((filter) =>
     render(
-      <TodoItem filter={filter} todos={mockTodos} onTodo={() => jest.fn()} />
-    )
+      <TodoItem filter={filter} todos={mockTodos} onTodo={() => jest.fn()} />,
+    ),
   );
 });

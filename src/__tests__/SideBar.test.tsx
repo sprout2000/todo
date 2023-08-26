@@ -11,7 +11,7 @@ test('render SideBar component', async () => {
       onSort={spy}
       onToggleQR={spy}
       onToggleDrawer={spy}
-    />
+    />,
   );
 
   await userEvent.click(screen.getByLabelText('list-all'));
