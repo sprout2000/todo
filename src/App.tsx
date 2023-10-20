@@ -4,6 +4,7 @@ type Todo = {
   value: string;
   readonly id: number;
   checked: boolean;
+  removed: boolean;
 };
 
 export const App = () => {
@@ -21,6 +22,7 @@ export const App = () => {
       value: text,
       id: new Date().getTime(),
       checked: false,
+      removed: false,
     };
 
     setTodos((todos) => [newTodo, ...todos]);
@@ -53,6 +55,19 @@ export const App = () => {
     });
   };
 
+  const handleRemove = (id: number, removed: boolean) => {
+    setTodos((todos) => {
+      const newTodos = todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, removed };
+        }
+        return todo;
+      });
+
+      return newTodos;
+    });
+  };
+
   return (
     <div>
       <form
@@ -70,15 +85,19 @@ export const App = () => {
             <li key={todo.id}>
               <input
                 type="checkbox"
+                disabled={todo.removed}
                 checked={todo.checked}
                 onChange={() => handleCheck(todo.id, !todo.checked)}
               />
               <input
                 type="text"
-                disabled={todo.checked}
+                disabled={todo.checked || todo.removed}
                 value={todo.value}
                 onChange={(e) => handleEdit(todo.id, e.target.value)}
               />
+              <button onClick={() => handleRemove(todo.id, !todo.removed)}>
+                {todo.removed ? "復元" : "削除"}
+              </button>
             </li>
           );
         })}
