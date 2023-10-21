@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import localforage from "localforage";
 
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -103,6 +105,16 @@ export const App = () => {
   const handleSort = (filter: Filter) => {
     setFilter(filter);
   };
+
+  useEffect(() => {
+    localforage
+      .getItem("todo-20200101")
+      .then((values) => setTodos(values as Todo[]));
+  }, []);
+
+  useEffect(() => {
+    localforage.setItem("todo-20200101", todos);
+  }, [todos]);
 
   return (
     <ThemeProvider theme={theme}>
