@@ -1,27 +1,23 @@
-# React + TypeScript + Vite
+# Todo (PWA)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![GitHub CI](https://github.com/sprout2000/todo/actions/workflows/jest.yml/badge.svg)](https://github.com/sprout2000/todo/actions/workflows/jest.yml)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/sprout2000/todo/react)
+[![GitHub license](https://img.shields.io/github/license/sprout2000/todo)](https://github.com/sprout2000/todo/blob/master/LICENSE.md)
 
-Currently, two official plugins are available:
+[Zenn](https://zenn.dev/) にて公開中の書籍[「入門 React ハンズオン」](https://zenn.dev/sprout2000/books/76a279bb90c3f3) のサンプルレポジトリ
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img height="480" src="https://storage.googleapis.com/zenn-user-upload/afb4ca4f85a799effd7f4870.png" />
 
-## Expanding the ESLint configuration
+## 使い方
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+```sh
+# このレポジトリをクローン
+git clone https://github.com/sprout2000/todo.git
 
-- Configure the top-level `parserOptions` property like this:
+# 依存パッケージをインストール
+cd todo
+npm install
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+# http://localhost:5173 で開発
+npm run dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
