@@ -12,15 +12,17 @@ type Props = {
   onTodo: <T extends Todo["id"], U extends keyof Todo, V extends Todo[U]>(
     id: T,
     key: U,
-    value: V
+    value: V,
   ) => void;
 };
 
-const Container = styled("div")({
+const Container = styled("div")(({ theme }) => ({
   margin: "0 auto",
+  marginTop: theme.spacing(10),
+  marginBottom: theme.spacing(10),
   maxWidth: "640px",
   fontFamily: "-apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-});
+}));
 
 const TodoCard = styled(Card)(({ theme }) => ({
   marginTop: theme.spacing(1),
