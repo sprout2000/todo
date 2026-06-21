@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
-
-import localforage from "localforage";
-
+import { indigo, pink } from "@mui/material/colors";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { indigo, pink } from "@mui/material/colors";
-
+import localforage from "localforage";
+import { useEffect, useState } from "react";
+import { ActionButton } from "./ActionButton";
+import { AlertDialog } from "./AlertDialog";
+import { FormDialog } from "./FormDialog";
+import { isTodos } from "./lib/isTodos";
 import { QR } from "./QR";
-import { ToolBar } from "./ToolBar";
 import { SideBar } from "./SideBar";
 import { TodoItem } from "./TodoItem";
-import { FormDialog } from "./FormDialog";
-import { AlertDialog } from "./AlertDialog";
-import { ActionButton } from "./ActionButton";
-
-import { isTodos } from "./lib/isTodos";
+import { ToolBar } from "./ToolBar";
 
 const theme = createTheme({
   palette: {
@@ -59,7 +55,7 @@ export const App = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setText(e.target.value);
   };
@@ -72,7 +68,7 @@ export const App = () => {
 
     const newTodo: Todo = {
       value: text,
-      id: new Date().getTime(),
+      id: Date.now(),
       checked: false,
       removed: false,
     };
@@ -85,7 +81,7 @@ export const App = () => {
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
     id: number,
     key: K,
-    value: V
+    value: V,
   ) => {
     setTodos((todos) => {
       const newTodos = todos.map((todo) => {

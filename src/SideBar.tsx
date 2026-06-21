@@ -1,15 +1,14 @@
+import Avatar from "@mui/material/Avatar";
+import { indigo, lightBlue, pink } from "@mui/material/colors";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
 import Icon from "@mui/material/Icon";
 import List from "@mui/material/List";
-import Avatar from "@mui/material/Avatar";
-import Drawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-
 import { styled } from "@mui/material/styles";
-import { indigo, lightBlue, pink } from "@mui/material/colors";
 
 import pjson from "../package.json";
 

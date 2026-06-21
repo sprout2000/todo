@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// biome-ignore lint/suspicious/noExplicitAny: <this is a type guard function>
 const isTodo = (arg: any): arg is Todo => {
   return (
     typeof arg === "object" &&
@@ -9,6 +9,7 @@ const isTodo = (arg: any): arg is Todo => {
   );
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <this is a type guard function>
 export const isTodos = (arg: any): arg is Todo[] => {
   return Array.isArray(arg) && arg.every(isTodo);
 };

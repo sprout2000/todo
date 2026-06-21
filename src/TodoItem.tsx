@@ -1,10 +1,9 @@
-import Icon from "@mui/material/Icon";
 import Card from "@mui/material/Card";
+import { grey, lightBlue, pink } from "@mui/material/colors";
+import Icon from "@mui/material/Icon";
+import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import { styled } from "@mui/material/styles";
-import { lightBlue, pink, grey } from "@mui/material/colors";
 
 type Props = {
   todos: Todo[];

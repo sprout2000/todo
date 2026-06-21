@@ -1,7 +1,6 @@
-import { QRCode } from "react-qrcode-logo";
-
 import Backdrop from "@mui/material/Backdrop";
 import { styled } from "@mui/material/styles";
+import { QRCode } from "react-qrcode-logo";
 
 const TodoBackdrop = styled(Backdrop)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,

@@ -1,9 +1,9 @@
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
-import AppBar from "@mui/material/AppBar";
+import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 
 import { translator } from "./lib/translator";
 
